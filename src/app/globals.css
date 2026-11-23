@@ -1,0 +1,427 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-poppins), 'Poppins', sans-serif;
+  --font-outfit: var(--font-outfit), 'Outfit', sans-serif;
+  --font-poppins: var(--font-poppins), 'Poppins', sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --font-outfit: 'Outfit', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    font-family: var(--font-poppins), 'Poppins', sans-serif;
+    overflow-x: hidden;
+    @apply bg-background text-foreground;
+  }
+
+  /* Hero & display sections use Outfit */
+  .font-outfit,
+  [class*="font-['Outfit']"] {
+    font-family: var(--font-outfit), 'Outfit', sans-serif !important;
+  }
+
+  /* Body & others use Poppins */
+  .font-poppins,
+  [class*="font-['Poppins']"] {
+    font-family: var(--font-poppins), 'Poppins', sans-serif !important;
+  }
+
+  /* Automatically map any legacy Barlow_Condensed references to Outfit */
+  .font-barlow-condensed,
+  [class*="font-['Barlow_Condensed']"],
+  [class*="font-['Barlow Condensed']"] {
+    font-family: var(--font-outfit), 'Outfit', sans-serif !important;
+  }
+
+  /* Automatically map any DM Sans references to Poppins */
+  [class*="font-['DM_Sans']"],
+  [class*="font-['DM Sans']"],
+  [class*="font-['DM-Sans']"] {
+    font-family: var(--font-poppins), 'Poppins', sans-serif !important;
+  }
+}
+
+
+.LcvUkwqF__Container {
+ display: none !important; 
+ visibility: hidden !important;
+}
+.z7mZYGiW__FloatingActionButton {
+  display: none !important; 
+ visibility: hidden !important;
+}
+.dvo70Wt3__Frame-item .HdgSqQWW__Frame-item--bottomRight {
+  display: none !important; 
+ visibility: hidden !important;
+}
+
+/* ─── SunEditor rendered HTML content ───────────────────────────────────────
+   Add these rules to your globals.css.
+   The .sun-editor-content class is placed on any div that renders
+   dangerouslySetInnerHTML output from SunEditor.
+──────────────────────────────────────────────────────────────────────────── */
+
+.sun-editor-content {
+  color: #64748b; /* slate-500 — matches the surrounding text tone */
+  line-height: 1.75;
+  word-break: break-word;
+}
+
+/* Headings */
+.sun-editor-content h1,
+.sun-editor-content h2,
+.sun-editor-content h3,
+.sun-editor-content h4,
+.sun-editor-content h5,
+.sun-editor-content h6 {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 900;
+  color: #0f172a; /* slate-900 */
+  line-height: 1.1;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+.sun-editor-content h1 {
+  font-size: 1.75rem;
+}
+.sun-editor-content h2 {
+  font-size: 1.4rem;
+}
+.sun-editor-content h3 {
+  font-size: 1.15rem;
+}
+.sun-editor-content h4,
+.sun-editor-content h5,
+.sun-editor-content h6 {
+  font-size: 1rem;
+}
+
+/* Paragraphs */
+.sun-editor-content p {
+  margin-top: 0;
+  margin-bottom: 0.75em;
+}
+.sun-editor-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Bold / italic / underline */
+.sun-editor-content strong,
+.sun-editor-content b {
+  font-weight: 700;
+  color: #334155; /* slate-700 */
+}
+.sun-editor-content em,
+.sun-editor-content i {
+  font-style: italic;
+}
+.sun-editor-content u {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.sun-editor-content s {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* Links */
+.sun-editor-content a {
+  color: #dc2626; /* red-600 */
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+}
+.sun-editor-content a:hover {
+  color: #b91c1c; /* red-700 */
+}
+
+/* Unordered list */
+.sun-editor-content ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.75em 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+.sun-editor-content ul li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+.sun-editor-content ul li::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #dc2626; /* red-500 */
+  margin-top: 0.45em;
+  flex-shrink: 0;
+}
+
+/* Ordered list */
+.sun-editor-content ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+  margin: 0.75em 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+.sun-editor-content ol li {
+  font-size: 0.9rem;
+  padding-left: 0.25rem;
+}
+.sun-editor-content ol li::marker {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+/* Blockquote */
+.sun-editor-content blockquote {
+  border-left: 3px solid #dc2626;
+  padding: 0.5rem 0 0.5rem 1rem;
+  margin: 1em 0;
+  color: #475569; /* slate-600 */
+  font-style: italic;
+  background: #fef2f2; /* red-50 */
+  border-radius: 0 8px 8px 0;
+}
+
+/* Inline code */
+.sun-editor-content code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8em;
+  background: #f1f5f9; /* slate-100 */
+  color: #dc2626;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+
+/* Code block */
+.sun-editor-content pre {
+  background: #0f172a; /* slate-900 */
+  color: #e2e8f0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+
+/* Horizontal rule */
+.sun-editor-content hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 1.5em 0;
+}
+
+/* Images */
+.sun-editor-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 0.75em 0;
+}
+
+/* Tables */
+.sun-editor-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin: 1em 0;
+}
+.sun-editor-content th {
+  background: #f8fafc;
+  color: #0f172a;
+  font-weight: 700;
+  text-align: left;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #e2e8f0;
+}
+.sun-editor-content td {
+  padding: 0.55rem 0.9rem;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
+.sun-editor-content tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+  font-family: var(--font-poppins), 'Poppins', sans-serif;
+}
+
+/* google translate doc */
+.translated-ltr,
+.translated-rtl {
+  margin-top: 0 !important;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar utility classes */
+.scrollbar-hide::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.scrollbar-hide,
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* Modern, subtle scrollbar matching full website theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Material Card Depth */
+.material-pill-card {
+  box-shadow: 0 8px 18px -3px rgba(0, 0, 0, 0.2), 0 3px 8px -2px rgba(0, 0, 0, 0.1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.material-pill-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px -3px rgba(0, 0, 0, 0.24), 0 4px 10px -2px rgba(0, 0, 0, 0.12);
+}
+
+/* Animated Download CTA Button */
+@keyframes ctaPulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 14px 0 rgba(112, 192, 65, 0.42);
+  }
+  50% {
+    transform: scale(1.025);
+    box-shadow: 0 6px 22px 0 rgba(112, 192, 65, 0.65);
+  }
+}
+
+@keyframes ctaShimmer {
+  0% {
+    transform: translateX(-150%);
+  }
+  50%, 100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-cta-pulse {
+  animation: ctaPulseGlow 2.4s ease-in-out infinite;
+}
+
+.animate-cta-shimmer {
+  animation: ctaShimmer 2.8s ease-in-out infinite;
+}

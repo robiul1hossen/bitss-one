@@ -1,0 +1,141 @@
+import { Lock, Cpu, ShieldOff, Network, Building2 } from "lucide-react";
+
+export const SECTIONS = [
+  {
+    id: "what-is-ransomware",
+    num: "01",
+    title: "What is Ransomware",
+    icon: Lock,
+    accent: "#DC2626",
+    accentText: "text-red-600",
+    accentBg: "bg-red-50",
+    iconBg: "bg-red-100",
+    accentDot: "bg-red-500",
+    accentBorder: "border-red-200",
+    calloutLabel: "Definition",
+    callout:
+      "Ransomware encrypts your files and locks your systems — then demands cryptocurrency payment before restoring access.",
+    body: [
+      "Ransomware is a form of malware designed to block access to systems or encrypt files until a ransom payment is made.",
+      "Once ransomware infects a system, attackers typically demand payment in cryptocurrency in exchange for the decryption key.",
+      "Ransomware attacks can cause significant operational disruption and financial loss for businesses and organizations.",
+    ],
+    bullets: [
+      "File & system encryption",
+      "Cryptocurrency ransom demands",
+      "Operational disruption",
+      "Data loss risk",
+    ],
+  },
+  {
+    id: "how-ransomware-works",
+    num: "02",
+    title: "How Ransomware Attacks Work",
+    icon: Cpu,
+    accent: "#EA580C",
+    accentText: "text-orange-600",
+    accentBg: "bg-orange-50",
+    iconBg: "bg-orange-100",
+    accentDot: "bg-orange-500",
+    accentBorder: "border-orange-200",
+    calloutLabel: "Attack Chain",
+    callout:
+      "Ransomware moves fast — from initial entry to full file encryption can happen in under an hour on an unprotected system.",
+    body: [
+      "Ransomware typically enters systems through phishing emails, malicious downloads, or compromised network access.",
+      "Once installed, the ransomware begins encrypting files and disabling system functions.",
+      "Attackers then display a ransom message demanding payment in exchange for restoring access to the encrypted data.",
+    ],
+    bullets: [
+      "Phishing email delivery",
+      "Malicious file downloads",
+      "Compromised remote access",
+      "Rapid file encryption",
+    ],
+  },
+  {
+    id: "prevention-strategies",
+    num: "03",
+    title: "Ransomware Prevention Strategies",
+    icon: ShieldOff,
+    accent: "#D97706",
+    accentText: "text-amber-600",
+    accentBg: "bg-amber-50",
+    iconBg: "bg-amber-100",
+    accentDot: "bg-amber-500",
+    accentBorder: "border-amber-200",
+    calloutLabel: "Best Practice",
+    callout:
+      "Regular offline backups are the single most effective ransomware countermeasure — no backup, no recovery without paying.",
+    body: [
+      "Preventing ransomware requires a combination of security strategies including regular data backups, malware detection systems, restricted access controls, and security awareness training.",
+      "Systems should be regularly updated and monitored to prevent attackers from exploiting vulnerabilities.",
+    ],
+    bullets: [
+      "Regular offline data backups",
+      "Real-time malware detection",
+      "Restricted access controls",
+      "Security awareness training",
+    ],
+  },
+  {
+    id: "how-ransomware-spreads",
+    num: "04",
+    title: "How Ransomware Spreads",
+    icon: Network,
+    accent: "#0284C7",
+    accentText: "text-sky-600",
+    accentBg: "bg-sky-50",
+    iconBg: "bg-sky-100",
+    accentDot: "bg-sky-500",
+    accentBorder: "border-sky-200",
+    calloutLabel: "Lateral Movement",
+    callout:
+      "Once inside one machine, ransomware scans your network for shared drives and admin credentials to infect every connected system.",
+    body: [
+      "Ransomware often spreads across networks through shared file systems, administrative credentials, and remote access services.",
+      "Once an initial infection occurs, the malware attempts to move laterally through the network, infecting additional systems.",
+      "Network segmentation and access control policies can significantly limit the spread of ransomware.",
+    ],
+    bullets: [
+      "Shared file system traversal",
+      "Credential harvesting",
+      "Remote access exploitation",
+      "Network segmentation defense",
+    ],
+  },
+  {
+    id: "protecting-businesses",
+    num: "05",
+    title: "Protecting Businesses from Ransomware",
+    icon: Building2,
+    accent: "#059669",
+    accentText: "text-emerald-600",
+    accentBg: "bg-emerald-50",
+    iconBg: "bg-emerald-100",
+    accentDot: "bg-emerald-500",
+    accentBorder: "border-emerald-200",
+    calloutLabel: "Business Priority",
+    callout:
+      "Rapid response is as critical as prevention — organizations with an incident response plan recover significantly faster after an attack.",
+    body: [
+      "Businesses must adopt proactive cybersecurity practices to defend against ransomware attacks.",
+      "These practices include regular system backups, endpoint protection, access control monitoring, and network security analysis.",
+      "Preparedness and rapid response are critical in minimizing the impact of ransomware incidents.",
+    ],
+    bullets: [
+      "Endpoint protection deployment",
+      "Access control monitoring",
+      "Network security analysis",
+      "Incident response planning",
+    ],
+  },
+];
+
+export const OTHER_TOPICS = [
+  { label: "Website Security", href: "/security-academy/website-security" },
+  { label: "Malware Protection", href: "/security-academy/malware-protection" },
+  { label: "Server Security", href: "/security-academy/server-security" },
+  { label: "Spam Protection", href: "/security-academy/spam-protection" },
+  { label: "Security Basics", href: "/security-academy/security-basics" },
+];

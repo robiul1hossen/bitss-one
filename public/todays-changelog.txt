@@ -1,0 +1,136 @@
+================================================================================
+                    BITSS 2.0 - TODAY'S CHANGELOG
+                    Date: November 3, 2026
+                    Environment: preview.bitss.one (Production)
+================================================================================
+
+SUMMARY OF UPDATES, ENHANCEMENTS & BUG FIXES IMPLEMENTED TODAY:
+
+1. PRODUCT CARD ENHANCEMENTS & MULTI-STACK COMPATIBILITY BADGES
+--------------------------------------------------------------------------------
+- Dual Platform Badge for Suite Card:
+  * For "BITSS Web & Windows Protection Suite", Windows (#0078D4) and WordPress (#0073AA) badges are rendered together side-by-side on the top-right header with authentic logos and labels.
+- Multi-Framework Badges for BITSS C:
+  * Added 6 authentic technology badges: JS, REACT, NODE, PHP, ASTRO, HTML.
+  * Designed with authentic official brand background colors, circular icon badges, and capital uppercase typography.
+  * Configured BITSS C card to span full width (sm:col-span-2) with single-row layout on desktop.
+- Mobile Responsive Badge Optimization:
+  * Resolved mobile overflow where badges were clipped off-screen on small screens.
+  * Added responsive scaling (w-5 h-5 sm:w-6.5 sm:h-6.5 circular icons, text-[10px] sm:text-[11.5px] font, and flex-wrap sm:flex-nowrap) ensuring 100% responsiveness on mobile devices.
+- Multi-Line Structured Subheading Bullet Lists:
+  * "BITSS Web & Windows Protection Suite": Multi-line breakdown highlighting 4 included products and yearly savings.
+  * "BITSS Advanced Web Database Security Pack": Structured bullet list detailing 20% discount (now €46.80 instead of €58.50) with breakdown of BITSS C, BITSS WAP, and BITSS VWAR.
+- Card Typography:
+  * Product card titles set to Outfit, 24px, font-black (weight 900), text-slate-950 for maximum readability.
+  * Files modified:
+    - src/components/card/ProductCard.jsx
+
+
+2. TOP NAVIGATION BAR & PRODUCTS DROPDOWN OVERHAUL
+--------------------------------------------------------------------------------
+- Navigation Bar Font Size:
+  * Scaled font size to 14px (font-semibold text-slate-700) across navigation links.
+- Enterprise SaaS Products Dropdown Menu Redesign:
+  * Transformed Products dropdown into a clean, modern, unified card structure (w-[370px] sm:w-[390px], p-2.5, rounded-2xl, shadow-2xl).
+  * Replaced disjointed colored boxes and plain dots with dedicated squircle icon badges:
+    - "All Products": Sleek dark card (bg-slate-900 hover:bg-slate-800) with Package icon and "13 PRODUCTS" badge.
+    - "Digital Security Products": Lite green theme (#70C041) with ShieldCheck icon badge and "Downloadable security software & digital licences" subtitle.
+    - "Physical Security Products": Lite blue theme (#0078D4) with HardDrive icon badge and "USB installation keys & physical hardware delivery" subtitle.
+    - "BITSS Crypto Audit": Reddish theme (#EF4444) with Coins icon badge, "Web3" tag, and external link indicator.
+  * Eliminated awkward mid-word text truncation (...) across all subtitles.
+  * Added smooth right-arrow hover slide animation.
+- Mobile Navigation Sync:
+  * Updated mobile drawer accordion for Products to match the desktop icon squircle architecture and refined color accents.
+- Files modified:
+  - src/components/shared/navbar/NavbarCenter.jsx
+  - src/components/shared/navbar/NavbarRight.jsx
+  - src/components/shared/navbar/MobileNav.jsx
+
+
+3. PRODUCTS PAGE HERO SECTION & TYPOGRAPHY STANDARDIZATION
+--------------------------------------------------------------------------------
+- Breadcrumb Visibility Fix:
+  * Resolved issue where breadcrumbs ("Home > Products > ...") were hidden behind the fixed top navigation bar.
+  * Optimized hero section top padding (pt-[96px] sm:pt-[118px] lg:pt-[122px]).
+- Unified Hero Heading & Subheading Font Sizes:
+  * Standardized main heading across all sections to clamp(48px, 6vw, 72px) (text-5xl md:text-7xl, font-black 900, leading-[0.9] tracking-tight).
+    - Digital Security Products: Vivid green solid text (#70C041).
+    - Physical Security Packs: Vivid blue solid text (#0078D4).
+    - The Complete Security Suite (All Products): Slate-900 with red "SECURITY SUITE" accent (#DC2626).
+  * Standardized subheadings to clamp(15px, 2vw, 22px) (font-extrabold text-slate-900 leading-snug mt-2 sm:mt-2.5).
+- Category Status Eyebrow Badges:
+  * Digital: "● ONLINE PURCHASE" (emerald green animated pulse pill).
+  * Physical: "● DOORSTEP DELIVERY" (sky blue animated pulse pill).
+  * All Products: "● ALL PRODUCTS" (red animated pulse pill).
+- Files modified:
+  - src/components/pages/products/ProductClient.jsx
+
+
+4. DUAL-TIER MENU SYSTEM & SMART SCROLL BEHAVIOR
+--------------------------------------------------------------------------------
+- Unified Category Pill Styling:
+  * Main category bar pills (ALL, DIGITAL SECURITY PRODUCTS, PHYSICAL SECURITY PRODUCTS) updated to match lower sub-menu pills (font-['Outfit'] font-black text-[12px] sm:text-[13px] uppercase with live count badges).
+- Desktop Smart Scroll (window.innerWidth >= 768px):
+  * When opening or clicking primary category tabs, page stays at the top without auto-scrolling away, keeping the hero section and breadcrumbs in view.
+  * Clicking on any second-tier sub-menu tab (BITSS VWAR, BITSS PROTECT SERVER PS, BITSS WAP, BITSS C, BUNDLE PACK) smoothly scrolls the sticky filter bar and products to the top.
+- Mobile View Continuity (window.innerWidth < 768px):
+  * Preserved automatic scroll to filter bar and product list on mobile when primary category is selected, ensuring users on smaller screens do not need to scroll past the tall hero header.
+- Files modified:
+  - src/components/pages/products/ProductClient.jsx
+
+
+5. MENU ITEM TITLE UPDATE
+--------------------------------------------------------------------------------
+- Updated Navbar navigation menu label:
+  * Changed "BITSS Crypto Audit" to "BITSS Crypto Security - Insights & Audits" across desktop dropdown (`NavbarCenter.jsx`) and mobile slide-out drawer (`MobileNav.jsx`).
+- Files modified:
+  - src/components/shared/navbar/NavbarCenter.jsx
+  - src/components/shared/navbar/MobileNav.jsx
+
+
+6. PLESK NGINX REVERSE PROXY 403 RESTORATION
+--------------------------------------------------------------------------------
+- Diagnosed Plesk maintenance script overwriting `nginx.conf` and sending requests to Apache instead of Node.js.
+- Implemented permanent Plesk custom template at:
+  `/opt/psa/admin/conf/templates/custom/domain/nginxDomainVirtualHost.php`
+- Reconfigured and reloaded Plesk web server configuration. `preview.bitss.one` now permanently proxies directly to Next.js on port 3000 with 200 OK.
+
+
+7. PHYSICAL USB & RETAIL PACK CALLOUT BANNERS
+--------------------------------------------------------------------------------
+- Upgraded the physical product callouts below pack cards into clean, modern, enterprise-grade alert banners:
+  * Physical USB Keys:
+    - Text: "FOR EXISTING USB KEYS — GET ONLINE PRODUCT FOR IMMEDIATE USB KEY PROTECTION."
+    - Link: https://bitss.one/products/bitss-vwar-usb-flash-memory-key-protection-self-installation
+  * Retail Pack (Windows Device):
+    - Text: "FOR IMMEDIATE WINDOW DEVICE PROTECTION — BUY <br /> ONLINE PRODUCT FOR INSTANT DOWNLOAD."
+    - Link: https://bitss.one/products/bitss-vwar-for-windows-device
+  * Refined Polish:
+    - Removed download icon from all banners for a cleaner, unified typography-focused look.
+    - Added line break after "BUY" on the Retail Pack banner for balanced layout.
+    - Preserved all-caps Outfit font (`font-['Outfit']`) and animated CTA button with breathing pulse glow (`animate-cta-pulse`) and shimmer sweep (`animate-cta-shimmer`).
+- Files modified:
+  - src/app/globals.css
+  - src/components/pages/product-detail/ProductImageGrid.jsx
+
+
+8. BUILD & DEPLOYMENT VERIFICATION
+--------------------------------------------------------------------------------
+- Production Build: Successfully compiled via Next.js Turbopack (0 errors, 25/25 static routes optimized).
+- Runtime Status: PM2 process 'bitss-new' reloaded and serving 200 OK across all routes.
+- Generated Deployment Packages:
+  * Server Deployment ZIP (Includes compiled production `.next` build + assets + configs):
+    - File: /var/www/vhosts/preview.bitss.one/httpdocs/public/bitss-server-deployment.zip (4.9 MB)
+    - URL: https://preview.bitss.one/bitss-server-deployment.zip
+    - Alias: https://preview.bitss.one/bitss-deploy-latest.zip
+  * Un-built Pure Source Code ZIP (Clean source code without .next, node_modules, or build files):
+    - File: /var/www/vhosts/preview.bitss.one/httpdocs/public/bitss-unbuild.zip (480 KB)
+    - URL: https://preview.bitss.one/bitss-unbuild.zip
+    - Alias: https://preview.bitss.one/bitss-unbuilt.zip
+  * Full Project Source Code ZIP (Clean repository source code ready for development):
+    - File: /var/www/vhosts/preview.bitss.one/httpdocs/public/bitss-full-project.zip (479 KB)
+    - URL: https://preview.bitss.one/bitss-full-project.zip
+    - Versioned: https://preview.bitss.one/bitss-2.0%2022.zip
+================================================================================
+
+

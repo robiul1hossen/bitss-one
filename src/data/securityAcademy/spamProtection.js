@@ -1,0 +1,141 @@
+import { MailX, Bot, ScanEye, Mail, Radar } from "lucide-react";
+
+export const SECTIONS = [
+  {
+    id: "stop-contact-form-spam",
+    num: "01",
+    title: "Stop Contact Form Spam",
+    icon: MailX,
+    accent: "#DC2626",
+    accentText: "text-red-600",
+    accentBg: "bg-red-50",
+    iconBg: "bg-red-100",
+    accentDot: "bg-red-500",
+    accentBorder: "border-red-200",
+    calloutLabel: "Key Threat",
+    callout:
+      "Spam bots submit thousands of automated messages through contact forms — distributing malicious links, phishing attempts, and junk ads directly to your inbox.",
+    body: [
+      "Contact form spam is one of the most common forms of automated website abuse.",
+      "Spam bots attempt to submit thousands of automated messages through website contact forms in order to distribute advertisements, malicious links, or phishing attempts.",
+      "Effective spam protection involves identifying automated bot behavior and blocking suspicious submissions before they reach the server.",
+    ],
+    bullets: [
+      "Bot submission blocking",
+      "Malicious link filtering",
+      "Phishing attempt detection",
+      "Server-side validation",
+    ],
+  },
+  {
+    id: "how-spam-bots-attack",
+    num: "02",
+    title: "How Spam Bots Attack Websites",
+    icon: Bot,
+    accent: "#EA580C",
+    accentText: "text-orange-600",
+    accentBg: "bg-orange-50",
+    iconBg: "bg-orange-100",
+    accentDot: "bg-orange-500",
+    accentBorder: "border-orange-200",
+    calloutLabel: "How It Works",
+    callout:
+      "Spam bots crawl the web constantly scanning for exposed forms — an unprotected contact page can receive hundreds of fake submissions per day.",
+    body: [
+      "Spam bots are automated programs designed to search the internet for website forms they can exploit.",
+      "These bots simulate user activity and attempt to submit large volumes of messages through vulnerable forms.",
+      "Advanced bot detection systems analyze behavior patterns such as submission frequency, request timing, and user interaction signals.",
+    ],
+    bullets: [
+      "Automated form discovery",
+      "High-volume submission attacks",
+      "User behavior simulation",
+      "Submission frequency analysis",
+    ],
+  },
+  {
+    id: "captcha-vs-ai",
+    num: "03",
+    title: "CAPTCHA vs AI Spam Protection",
+    icon: ScanEye,
+    accent: "#D97706",
+    accentText: "text-amber-600",
+    accentBg: "bg-amber-50",
+    iconBg: "bg-amber-100",
+    accentDot: "bg-amber-500",
+    accentBorder: "border-amber-200",
+    calloutLabel: "Modern Reality",
+    callout:
+      "Many modern bots can now bypass standard CAPTCHA tests — AI-powered behavioral analysis catches what visual challenges miss.",
+    body: [
+      "CAPTCHA systems have traditionally been used to block automated bots by requiring users to complete visual verification tests.",
+      "However, many modern bots are capable of bypassing basic CAPTCHA systems.",
+      "Advanced spam protection systems now use behavioral analysis and machine learning techniques to detect automated activity more effectively.",
+    ],
+    bullets: [
+      "CAPTCHA visual verification",
+      "Behavioral analysis",
+      "Machine learning detection",
+      "Invisible bot fingerprinting",
+    ],
+  },
+  {
+    id: "preventing-email-spam",
+    num: "04",
+    title: "Preventing Email Spam",
+    icon: Mail,
+    accent: "#0284C7",
+    accentText: "text-sky-600",
+    accentBg: "bg-sky-50",
+    iconBg: "bg-sky-100",
+    accentDot: "bg-sky-500",
+    accentBorder: "border-sky-200",
+    calloutLabel: "Defense Layer",
+    callout:
+      "Modern email spam filters combine sender reputation, content analysis, and behavioral signals — no single technique is enough on its own.",
+    body: [
+      "Email spam filtering systems analyze incoming messages to identify suspicious patterns such as malicious links, unusual sender behavior, and spam signatures.",
+      "Modern email security solutions combine reputation analysis, content filtering, and behavioral detection to block spam before it reaches users.",
+    ],
+    bullets: [
+      "Sender reputation analysis",
+      "Content & link filtering",
+      "Spam signature matching",
+      "Behavioral anomaly detection",
+    ],
+  },
+  {
+    id: "bot-detection-techniques",
+    num: "05",
+    title: "Bot Detection Techniques",
+    icon: Radar,
+    accent: "#059669",
+    accentText: "text-emerald-600",
+    accentBg: "bg-emerald-50",
+    iconBg: "bg-emerald-100",
+    accentDot: "bg-emerald-500",
+    accentBorder: "border-emerald-200",
+    calloutLabel: "Detection Signal",
+    callout:
+      "Bots operate at machine speed with no natural pauses — timing analysis alone can identify automated traffic with high accuracy.",
+    body: [
+      "Bot detection systems identify automated traffic by analyzing request behavior, connection patterns, and interaction signals.",
+      "Unlike human users, bots often operate at extremely high speeds and follow predictable patterns that can be detected by monitoring software.",
+      "Effective bot detection technologies are capable of distinguishing legitimate users from malicious automated scripts.",
+    ],
+    bullets: [
+      "Request timing analysis",
+      "Connection pattern monitoring",
+      "Interaction signal tracking",
+      "Automated script fingerprinting",
+    ],
+  },
+];
+
+export const OTHER_TOPICS = [
+  { label: "Website Security", href: "/security-academy/website-security" },
+  { label: "Malware Protection", href: "/security-academy/malware-protection" },
+  { label: "Ransomware Defense", href: "/security-academy/ransomware-defense" },
+  { label: "Server Security", href: "/security-academy/server-security" },
+  { label: "Security Basics", href: "/security-academy/security-basics" },
+];

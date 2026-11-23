@@ -1,0 +1,284 @@
+================================================================================
+                    BITSS 2.0 - SESSION CHANGELOG
+                    Date: November 1 - November 2, 2026
+                    Environment: preview.bitss.one -> Main Server Deployment
+================================================================================
+
+SUMMARY OF UPDATES & BUG FIXES IMPLEMENTED IN THIS SESSION:
+
+1. WEBSITE NAVBAR & MENU BAR OPTIMIZATION
+--------------------------------------------------------------------------------
+- Scaled down font size to 12px across all navigation links, dropdown triggers, and buttons.
+- Compacted padding (px-2.5 py-1) and gap spacing to prevent oversized appearance.
+- Scaled user profile dropdown button (text-[12px], w-6 h-6 avatar) and Sign-in button.
+- Locked fixed navbar height to exactly 68px to eliminate layout shift / jump flicker on scroll.
+- Preloaded company logo and stabilized Language Switcher width to prevent text flash.
+  * Files modified:
+    - src/components/shared/navbar/Navbar.jsx
+    - src/components/shared/navbar/NavbarCenter.jsx
+    - src/components/shared/navbar/NavbarLeft.jsx
+    - src/components/shared/navbar/NavbarRight.jsx
+    - src/components/shared/Topbar.jsx
+    - src/components/shared/LanguageSwitcher.jsx
+
+
+2. CATEGORY FILTER MENU & PRODUCT LISTING HEADER
+--------------------------------------------------------------------------------
+- Overhauled category tabs into modern rounded pill capsules with live badge counts.
+- Sticky category filter bar offset configured to top-[68px] so it never hides behind the menu.
+- Added smooth scrolling behavior (scrollToProducts) on clicking any category or sub-category tab.
+- Submenu navigation system: shows sub-category pill menu dynamically when browsing from All Products.
+- Standardized category pill tab fonts to 12px and compact padding (px-3 sm:px-3.5 py-1 sm:py-1.5).
+- Reduced category description text under main title to 12px (text-[12px] max-w-xl).
+- In BITSS Special Bundle Pack, added:
+  - "BITSS Web & Windows Protection Suite" (ID: 27)
+- Renamed "BITSS USB Protection" to "BITSS VWAR USB Protection".
+  * Files modified:
+    - src/components/pages/products/ProductClient.jsx
+    - src/components/pages/products/ProductListing.jsx
+    - src/app/products/page.jsx
+    - src/app/online-product/page.jsx
+    - src/app/physical-product/page.jsx
+
+
+3. BITSS PS — SERVER PROTECTION SUITE SECTION
+--------------------------------------------------------------------------------
+- Added eyebrow badge line above heading:
+  "BITSS PS — Protect Servers (all servers including nodes)"
+- Aligned "Choose the plan that protects your servers" on a clean line with Outfit font styling.
+- Placed subscription mode (Individual / Enterprise) and billing period toggles on a single responsive row.
+- Applied Google Font 'Outfit' to plan titles, prices, and feature pills.
+- Restored full volume tier and subscription planner logic with clean visual hierarchy.
+  * Files modified:
+    - src/components/pages/products/server-protection/ServerProtection2.jsx
+    - src/components/pages/products/server-protection/ServerProtectionCard2.jsx
+
+
+4. PRODUCT CARDS & TOP FEATURES DISPLAY
+--------------------------------------------------------------------------------
+- Updated feature list section header on product cards to "TOP FEATURES".
+- Limited feature bullets display to the top 5 key features for maximum readability.
+- Applied clean pill card badges and pricing layouts.
+  * Files modified:
+    - src/components/card/ProductCard.jsx
+
+
+5. RESPONSIVENESS OVERHAUL (CHECKOUT, INVOICES, ORDERS & MODALS)
+--------------------------------------------------------------------------------
+- Checkout Page:
+  - Transformed into 1-column stack on mobile/tablet and 12-column grid on desktop.
+  - Payment method selector made into responsive flexible grid (1 col mobile, 2 col sm, 4 col lg).
+  - Stripe payment card element and Bank Transfer account info cards styled with responsive text wrapping and copy buttons.
+  - Checkout order summary panel adapted with fluid typography and sticky positioning.
+- Order Details & License Table:
+  - Created a dual layout: desktop HTML table (hidden sm:table) and mobile card view (sm:hidden block card stack) so license keys, download links, and order details never overflow on mobile screens.
+  - Added copyable key chips with safe word-break and badge status indicators.
+- Invoice Credentials View:
+  - Full mobile responsiveness with responsive key-value cards.
+- Bank Payment Confirmation Modal:
+  - Constrained dialog height (max-h-[90vh]) with smooth internal scrolling (overflow-y-auto).
+  - Removed bright gradient, replaced with clean, elegant white card design matching other modals.
+  - Replaced crowded layout with responsive grid for date, amount, transaction ID, and file upload.
+  * Files modified:
+    - src/components/pages/checkout/Checkout.jsx
+    - src/components/pages/checkout/CheckoutPaymentMethod.jsx
+    - src/components/pages/checkout/CheckoutProductCard.jsx
+    - src/components/pages/checkout/CheckoutSummary.jsx
+    - src/components/pages/checkout/CheckoutBankInfo.jsx
+    - src/components/pages/checkout/CheckoutStripePanel.jsx
+    - src/components/pages/orderDetails/OrderDetailsInner.jsx
+    - src/components/pages/orderDetails/LicenseTable.jsx
+    - src/components/dashboard/InvoiceCredentials.jsx
+    - src/components/dashboard/bankPaymentConfirmation/BankPaymentConfirmationDialog.jsx
+    - src/components/dashboard/bankPaymentConfirmation/ConfirmBankPaymentForm.jsx
+    - src/components/dashboard/OrderCard.jsx
+    - src/components/dashboard/DashboardInner.jsx
+    - src/components/dashboard/DashboardHeader.jsx
+
+
+6. FONT & BUILD COMPATIBILITY FIXES
+--------------------------------------------------------------------------------
+- Loaded 'Outfit' and 'Poppins' fonts via CSS imports in globals.css to eliminate Turbopack next/font/google build errors with Next.js 16.1.6.
+- Ensured 100% build pass: `next build` generates all static and dynamic routes with exit code 0.
+  * Files modified:
+    - src/app/globals.css
+    - src/app/layout.js
+
+
+7. DASHBOARD ORDERS & COUNTS API COMPATIBILITY FIX
+--------------------------------------------------------------------------------
+- Fixed issue where previous orders were showing as 0 / "No orders yet" on the main server.
+- Supported both backend API response formats:
+  - Direct array: `data.data = [ ...orders ]` (legacy API structure)
+  - Object schema: `data.data = { orders: [ ... ], counts: { ... } }`
+- Added dynamic fallback for dashboard header stats cards (Total Orders, Active, Processing, Paid, Bank Submitted, Expired) so that if the backend API does not return a `counts` object, the numbers are calculated directly from the orders list.
+- Added null-safety checks in `OrderCard.jsx` and `orderHelpers.js` to ensure resilient rendering.
+  * Files modified:
+    - src/components/dashboard/DashboardInner.jsx
+    - src/components/dashboard/DashboardHeader.jsx
+    - src/components/dashboard/OrderCard.jsx
+    - src/utils/orderHelpers.js
+
+
+8. BANK TRANSFER VISIBILITY FIX (CHECKOUT & DASHBOARD)
+--------------------------------------------------------------------------------
+- Fixed issue where Bank Transfer was not displaying:
+  1) On Checkout (`/checkout`): Removed strict filter that was hiding the Bank Transfer payment method when `bankInformation` was empty or when `product.is_delivery_address` was true. Bank Transfer is now permanently available as a primary payment method alongside Stripe and PayPal.
+  2) On Dashboard Order Card (`OrderCard.jsx`):
+     - Made `isBankTransfer` detection case-insensitive and flexible (`bank_transfer`, `Bank Transfer`, `bank`, `is_bank_transfer`).
+     - Fixed logic so "Confirm Bank Payment" button displays for any unpaid/pending bank transfer order (previously only showed if `payment_status === "unpaid"`, causing "pending" orders to mistakenly show as "Paid").
+     - Made payment method badge visible even if `payment_status` is not yet assigned.
+  3) In Bank Confirmation Form & Invoice Details:
+     - Added multi-property fallback for `bankInfo` lookup across `country.bank_informations`, `bank_informations`, and direct `bank_information` objects.
+  * Files modified:
+    - src/components/pages/checkout/CheckoutPaymentMethod.jsx
+    - src/components/pages/checkout/CheckoutBankInfo.jsx
+    - src/components/dashboard/OrderCard.jsx
+    - src/components/pages/orderDetails/OrderDetailsInner.jsx
+    - src/components/dashboard/bankPaymentConfirmation/ConfirmBankPaymentForm.jsx
+
+================================================================================
+DEPLOYMENT INSTRUCTIONS FOR MAIN SERVER:
+1. Extract the zip file into your main server root / httpdocs folder.
+2. Run: `npm install` (if dependencies changed) or `npm run build`.
+3. Restart process with PM2: `pm2 restart <app-name>`.
+================================================================================
+
+
+[2026-11-02 Session - Order & Dashboard Resolution]
+1. Auth & Session Resilience (src/context/AuthContext.jsx):
+   - Added support for multiple auth token keys (access_token, token, bearer_token) on login/register.
+   - Cleans up "undefined" or corrupted tokens from localStorage on mount so expired/invalid tokens don't block order queries.
+2. Dashboard Order Resolution & Real-Time Sync (src/components/dashboard/DashboardInner.jsx):
+   - Added resolveOrders() supporting direct array, data.orders, paginated data.data.data, and any nested order arrays.
+   - Reduced staleTime to 10 seconds and refetchOnMount to ensure newly placed orders immediately load.
+   - Added a manual "Refresh Orders" button beside the "MY ORDERS" title so users can force-refresh without hard browser reload.
+   - Added active logged-in email indicator in the header and empty state so the user clearly sees which account they are viewing.
+3. Dashboard Header Stats Fallback (src/components/dashboard/DashboardHeader.jsx):
+   - Real-time fallback calculations for total, active, processing, paid, bank submitted, and expired orders directly from resolved orders list.
+4. Bank Transfer Options & Confirmation (src/components/pages/checkout/CheckoutPaymentMethod.jsx, OrderCard.jsx):
+   - Guaranteed Bank Transfer visibility across all checkout conditions.
+   - Ensured "Confirm Bank Payment" button displays for unpaid bank orders with multi-source bank info fallbacks.
+
+[2026-11-03 Session - Digital Product Bundle Pack Menu]
+1. Digital Product Sub-Pill Menu (src/components/pages/products/ProductClient.jsx & ProductListing.jsx):
+   - Added new menu option "Bundle Pack" to DIGITAL_STATIC_MENU.
+   - Filter logic added for "Bundle Pack" tab to display digital bundle products (BITSS Advanced Web Database Security Pack & BITSS Web & Windows Protection Suite).
+   - Auto-computed digital bundle count and total count to accurately display product count badge on the "Bundle Pack" pill.
+
+[2026-11-03 Session - Digital Products Description Styling & Green Accent]
+1. Digital Products Hero Subtitle (src/components/pages/products/ProductClient.jsx & ProductListing.jsx):
+   - Increased font size from 12px to a prominent, clean, and balanced 15px - 16.5px (text-[15px] sm:text-[16.5px]).
+   - Added an emerald green live pulse badge: "Instant Download" (bg-emerald-50 border-emerald-200 text-emerald-700).
+   - Applied bold slate-900 emphasis to "BITSS security software".
+   - Highlighted "digital licences" with a sophisticated emerald green accent badge (text-emerald-600 bg-emerald-50/90 border-emerald-200).
+
+[2026-11-03 Session - Digital Description Line Break & Full Green Bold Text]
+1. Digital Description Layout (src/components/pages/products/ProductClient.jsx & ProductListing.jsx):
+   - Added line break after the "Instant Download" badge so it sits on its own line.
+   - Formatted the entire line "Explore downloadable BITSS security software and digital licences." in full green bold text (text-emerald-600 font-bold).
+   - Uniform font size across all words (text-[16px] sm:text-[17.5px]) for a clean, presentable, and consistent look.
+
+[2026-11-03 Session - Enlarged Professional Instant Download Badge]
+1. Instant Download Badge (src/components/pages/products/ProductClient.jsx & ProductListing.jsx):
+   - Scaled badge padding to px-3.5 sm:px-4 py-1.5 and font size to text-[12px] sm:text-[13px] font-bold.
+   - Integrated live radar pulse indicator (animate-ping) with green core dot.
+   - Added sharp Download icon (lucide-react Download strokeWidth 2.5) for a high-end enterprise cybersecurity feel.
+
+[2026-11-03 Session - Platform Label Badges & Outfit Font Uniformity]
+1. Product Card Platform Labels (src/components/card/ProductCard.jsx):
+   - Replaced generic "Security Product" badge with dedicated platform badges for instant clarity:
+     * "WordPress" (bg-sky-50 text-sky-700 border-sky-200 with sky dot)
+     * "Windows" (bg-blue-50 text-blue-700 border-blue-200 with blue dot)
+     * "Windows & Web" (bg-indigo-50 text-indigo-700 border-indigo-200 with indigo dot)
+     * "All Servers" (bg-emerald-50 text-emerald-700 border-emerald-200 with emerald dot)
+     * "WordPress & Web" (bg-sky-50 text-sky-700 border-sky-200 with sky dot)
+   - Badge font unified to Outfit with rounded-full shadow-2xs styling.
+2. Digital Security Product Page Font (src/components/pages/products/ProductClient.jsx, ProductListing.jsx, Tag.jsx):
+   - Applied category title font (Outfit) to the subtitle green text, Instant Download badge, and top category Tag.
+================================================================================
+                    BITSS 2.0 - TODAY'S CHANGELOG
+                    Date: November 3, 2026
+                    Environment: preview.bitss.one (Production)
+================================================================================
+
+SUMMARY OF UPDATES, ENHANCEMENTS & BUG FIXES IMPLEMENTED TODAY:
+
+1. PRODUCT CARD ENHANCEMENTS & MULTI-STACK COMPATIBILITY BADGES
+--------------------------------------------------------------------------------
+- Dual Platform Badge for Suite Card:
+  * For "BITSS Web & Windows Protection Suite", Windows (#0078D4) and WordPress (#0073AA) badges are rendered together side-by-side on the top-right header with authentic logos and labels.
+- Multi-Framework Badges for BITSS C:
+  * Added 6 authentic technology badges: JS, REACT, NODE, PHP, ASTRO, HTML.
+  * Designed with authentic official brand background colors, circular icon badges, and capital uppercase typography.
+  * Configured BITSS C card to span full width (sm:col-span-2) with single-row layout on desktop.
+- Mobile Responsive Badge Optimization:
+  * Resolved mobile overflow where badges were clipped off-screen on small screens.
+  * Added responsive scaling (w-5 h-5 sm:w-6.5 sm:h-6.5 circular icons, text-[10px] sm:text-[11.5px] font, and flex-wrap sm:flex-nowrap) ensuring 100% responsiveness on mobile devices.
+- Multi-Line Structured Subheading Bullet Lists:
+  * "BITSS Web & Windows Protection Suite": Multi-line breakdown highlighting 4 included products and yearly savings.
+  * "BITSS Advanced Web Database Security Pack": Structured bullet list detailing 20% discount (now €46.80 instead of €58.50) with breakdown of BITSS C, BITSS WAP, and BITSS VWAR.
+- Card Typography:
+  * Product card titles set to Outfit, 24px, font-black (weight 900), text-slate-950 for maximum readability.
+  * Files modified:
+    - src/components/card/ProductCard.jsx
+
+
+2. TOP NAVIGATION BAR & PRODUCTS DROPDOWN OVERHAUL
+--------------------------------------------------------------------------------
+- Navigation Bar Font Size:
+  * Scaled font size to 14px (font-semibold text-slate-700) across navigation links.
+- Enterprise SaaS Products Dropdown Menu Redesign:
+  * Transformed Products dropdown into a clean, modern, unified card structure (w-[370px] sm:w-[390px], p-2.5, rounded-2xl, shadow-2xl).
+  * Replaced disjointed colored boxes and plain dots with dedicated squircle icon badges:
+    - "All Products": Sleek dark card (bg-slate-900 hover:bg-slate-800) with Package icon and "13 PRODUCTS" badge.
+    - "Digital Security Products": Lite green theme (#70C041) with ShieldCheck icon badge and "Downloadable security software & digital licences" subtitle.
+    - "Physical Security Products": Lite blue theme (#0078D4) with HardDrive icon badge and "USB installation keys & physical hardware delivery" subtitle.
+    - "BITSS Crypto Audit": Reddish theme (#EF4444) with Coins icon badge, "Web3" tag, and external link indicator.
+  * Eliminated awkward mid-word text truncation (...) across all subtitles.
+  * Added smooth right-arrow hover slide animation.
+- Mobile Navigation Sync:
+  * Updated mobile drawer accordion for Products to match the desktop icon squircle architecture and refined color accents.
+- Files modified:
+  - src/components/shared/navbar/NavbarCenter.jsx
+  - src/components/shared/navbar/NavbarRight.jsx
+  - src/components/shared/navbar/MobileNav.jsx
+
+
+3. PRODUCTS PAGE HERO SECTION & TYPOGRAPHY STANDARDIZATION
+--------------------------------------------------------------------------------
+- Breadcrumb Visibility Fix:
+  * Resolved issue where breadcrumbs ("Home > Products > ...") were hidden behind the fixed top navigation bar.
+  * Optimized hero section top padding (pt-[96px] sm:pt-[118px] lg:pt-[122px]).
+- Unified Hero Heading & Subheading Font Sizes:
+  * Standardized main heading across all sections to clamp(48px, 6vw, 72px) (text-5xl md:text-7xl, font-black 900, leading-[0.9] tracking-tight).
+    - Digital Security Products: Vivid green solid text (#70C041).
+    - Physical Security Packs: Vivid blue solid text (#0078D4).
+    - The Complete Security Suite (All Products): Slate-900 with red "SECURITY SUITE" accent (#DC2626).
+  * Standardized subheadings to clamp(15px, 2vw, 22px) (font-extrabold text-slate-900 leading-snug mt-2 sm:mt-2.5).
+- Category Status Eyebrow Badges:
+  * Digital: "● ONLINE PURCHASE" (emerald green animated pulse pill).
+  * Physical: "● DOORSTEP DELIVERY" (sky blue animated pulse pill).
+  * All Products: "● ALL PRODUCTS" (red animated pulse pill).
+- Files modified:
+  - src/components/pages/products/ProductClient.jsx
+
+
+4. DUAL-TIER MENU SYSTEM & SMART SCROLL BEHAVIOR
+--------------------------------------------------------------------------------
+- Unified Category Pill Styling:
+  * Main category bar pills (ALL, DIGITAL SECURITY PRODUCTS, PHYSICAL SECURITY PRODUCTS) updated to match lower sub-menu pills (font-['Outfit'] font-black text-[12px] sm:text-[13px] uppercase with live count badges).
+- Desktop Smart Scroll (window.innerWidth >= 768px):
+  * When opening or clicking primary category tabs, page stays at the top without auto-scrolling away, keeping the hero section and breadcrumbs in view.
+  * Clicking on any second-tier sub-menu tab (BITSS VWAR, BITSS PROTECT SERVER PS, BITSS WAP, BITSS C, BUNDLE PACK) smoothly scrolls the sticky filter bar and products to the top.
+- Mobile View Continuity (window.innerWidth < 768px):
+  * Preserved automatic scroll to filter bar and product list on mobile when primary category is selected, ensuring users on smaller screens do not need to scroll past the tall hero header.
+- Files modified:
+  - src/components/pages/products/ProductClient.jsx
+
+
+5. BUILD & DEPLOYMENT VERIFICATION
+--------------------------------------------------------------------------------
+- Production Build: Successfully compiled via Next.js Turbopack (0 errors, 25/25 static routes optimized).
+- Runtime Status: PM2 process 'bitss-new' reloaded and serving 200 OK across all routes.
+================================================================================

@@ -1,0 +1,181 @@
+import {
+  ShieldCheck,
+  Globe,
+  Lock,
+  Eye,
+  Ban,
+  Wifi,
+  Bug,
+  FileWarning,
+  UserX,
+  MapPin,
+  Server,
+  RefreshCw,
+  Users,
+  Layers,
+} from "lucide-react";
+
+export const COMPARISON = [
+  {
+    others: "Rely on third party security tools",
+    bitss: "We built our own security system from scratch",
+  },
+  {
+    others: "Use VPN which can be a security risk",
+    bitss: "We use our own IP filtering — no VPN needed",
+  },
+  {
+    others: "Generic protection for all",
+    bitss: "Custom built protection managed by our own team",
+  },
+  {
+    others: "Slow to respond to new threats",
+    bitss: "We update our system continuously",
+  },
+  {
+    others: "Off the shelf firewall",
+    bitss: "Our own internal firewall — we manage it ourselves",
+  },
+  {
+    others: "Basic login protection",
+    bitss: "Multiple layers of access control",
+  },
+  {
+    others: "Limited malware detection",
+    bitss: "Full malware, rootkit and virus detection built in",
+  },
+];
+
+export const PROTECTIONS = [
+  {
+    icon: Ban,
+    label: "SQL Injection Protection",
+    desc: "No matter how hard hackers try to break into our system through forms or login pages — they simply cannot. We make sure your personal details stay yours, always.",
+    accent: "text-red-600",
+    bg: "bg-red-50",
+    border: "border-red-100",
+    hoverBorder: "hover:border-red-300",
+    dot: "bg-red-500",
+  },
+  {
+    icon: Eye,
+    label: "Cross-Site Scripting (XSS) Protection",
+    desc: "We automatically stop any harmful programs or codes from entering our system before they even get close to your data.",
+    accent: "text-orange-600",
+    bg: "bg-orange-50",
+    border: "border-orange-100",
+    hoverBorder: "hover:border-orange-300",
+    dot: "bg-orange-500",
+  },
+  {
+    icon: Lock,
+    label: "Brute Force Attack Prevention",
+    desc: "If someone tries to guess your password again and again — we detect it straight away and block them automatically. You don't have to do anything.",
+    accent: "text-amber-600",
+    bg: "bg-amber-50",
+    border: "border-amber-100",
+    hoverBorder: "hover:border-amber-300",
+    dot: "bg-amber-500",
+  },
+  {
+    icon: Layers,
+    label: "Smart Firewall Filtering",
+    desc: "Our system knows exactly who is allowed access and who is not. Anyone who is not supposed to be there gets blocked — automatically, instantly, every time.",
+    accent: "text-sky-600",
+    bg: "bg-sky-50",
+    border: "border-sky-100",
+    hoverBorder: "hover:border-sky-300",
+    dot: "bg-sky-500",
+  },
+  {
+    icon: FileWarning,
+    label: "Phishing & Dangerous URL Blocking",
+    desc: "If a harmful or fake link tries to reach you through our system — we catch it first and block it before it causes any problem.",
+    accent: "text-violet-600",
+    bg: "bg-violet-50",
+    border: "border-violet-100",
+    hoverBorder: "hover:border-violet-300",
+    dot: "bg-violet-500",
+  },
+  {
+    icon: Bug,
+    label: "Rootkit & Virus Detection",
+    desc: "Some viruses try to hide deep inside a system without being noticed. Our system finds them and removes them — before they can do any damage.",
+    accent: "text-emerald-600",
+    bg: "bg-emerald-50",
+    border: "border-emerald-100",
+    hoverBorder: "hover:border-emerald-300",
+    dot: "bg-emerald-500",
+  },
+  {
+    icon: ShieldCheck,
+    label: "Malware Protection",
+    desc: "Our contact forms and file uploads are fully protected. Spam, junk files and virus attachments are automatically stopped before they reach us.",
+    accent: "text-teal-600",
+    bg: "bg-teal-50",
+    border: "border-teal-100",
+    hoverBorder: "hover:border-teal-300",
+    dot: "bg-teal-500",
+  },
+  {
+    icon: UserX,
+    label: "Unauthorized Access Prevention",
+    desc: "If your password ever gets leaked — don't worry. Our system has extra locks in place that stop anyone from getting in, even with the right password.",
+    accent: "text-rose-600",
+    bg: "bg-rose-50",
+    border: "border-rose-100",
+    hoverBorder: "hover:border-rose-300",
+    dot: "bg-rose-500",
+  },
+  {
+    icon: MapPin,
+    label: "IP-Based Access Control",
+    desc: "Every login is checked and verified. If someone from an unknown location tries to access your account — they are blocked immediately, no exceptions.",
+    accent: "text-indigo-600",
+    bg: "bg-indigo-50",
+    border: "border-indigo-100",
+    hoverBorder: "hover:border-indigo-300",
+    dot: "bg-indigo-500",
+  },
+  {
+    icon: Wifi,
+    label: "VPN-Free Secure Architecture",
+    desc: "Most companies use generic off-the-shelf security tools. We built ours from scratch — which means stronger protection, faster response, and no weak spots left by others.",
+    accent: "text-cyan-600",
+    bg: "bg-cyan-50",
+    border: "border-cyan-100",
+    hoverBorder: "hover:border-cyan-300",
+    dot: "bg-cyan-500",
+  },
+];
+
+export const PROMISES = [
+  { label: "Built from scratch", sub: "not copied" },
+  { label: "Managed by our own team", sub: "not outsourced" },
+  { label: "Updated continuously", sub: "not once a year" },
+  { label: "Custom built for every layer", sub: "not generic" },
+  { label: "No VPN dependency", sub: "no weak spots" },
+];
+
+export const PILLARS = [
+  {
+    icon: Server,
+    label: "Built In-House",
+    desc: "Every component of our security system was designed and built by our own engineers — no third-party dependencies.",
+  },
+  {
+    icon: RefreshCw,
+    label: "Continuously Updated",
+    desc: "Our system evolves daily. New threats are countered in real time — not patched once a year like off-the-shelf tools.",
+  },
+  {
+    icon: Users,
+    label: "Managed by Our Team",
+    desc: "A dedicated internal team monitors, maintains and improves the system around the clock. No outsourcing, no gaps.",
+  },
+  {
+    icon: Globe,
+    label: "No VPN Required",
+    desc: "We use proprietary IP filtering instead of relying on VPN — removing a common attack vector that most companies ignore.",
+  },
+];

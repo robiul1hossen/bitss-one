@@ -1,0 +1,142 @@
+import { Flame, Terminal, Globe, Activity, ServerCog } from "lucide-react";
+
+export const SECTIONS = [
+  {
+    id: "server-firewall",
+    num: "01",
+    title: "Server Firewall Explained",
+    icon: Flame,
+    accent: "#DC2626",
+    accentText: "text-red-600",
+    accentBg: "bg-red-50",
+    iconBg: "bg-red-100",
+    accentDot: "bg-red-500",
+    accentBorder: "border-red-200",
+    calloutLabel: "What It Does",
+    callout:
+      "A server firewall sits between your server and the internet — silently filtering every connection before it ever touches your system.",
+    body: [
+      "A server firewall acts as a protective barrier between a server and external networks.",
+      "The firewall monitors incoming and outgoing traffic and blocks connections that violate security rules.",
+      "This protection helps prevent unauthorized access attempts, vulnerability scans, and malicious network activity.",
+    ],
+    bullets: [
+      "Inbound traffic filtering",
+      "Outbound rule enforcement",
+      "Vulnerability scan blocking",
+      "Malicious connection drops",
+    ],
+  },
+  {
+    id: "protecting-ssh",
+    num: "02",
+    title: "Protecting SSH Access",
+    icon: Terminal,
+    accent: "#EA580C",
+    accentText: "text-orange-600",
+    accentBg: "bg-orange-50",
+    iconBg: "bg-orange-100",
+    accentDot: "bg-orange-500",
+    accentBorder: "border-orange-200",
+    calloutLabel: "High-Value Target",
+    callout:
+      "SSH gives direct command-line access to your entire server — attackers run automated bots 24/7 trying to brute-force SSH credentials.",
+    body: [
+      "Secure Shell (SSH) is commonly used by administrators to remotely manage servers.",
+      "Because SSH provides direct system access, attackers frequently attempt to compromise SSH credentials.",
+      "Protecting SSH access involves restricting login attempts, disabling password authentication, and monitoring access activity.",
+    ],
+    bullets: [
+      "Login attempt rate limiting",
+      "Password auth disabled",
+      "SSH key-only authentication",
+      "Access activity monitoring",
+    ],
+  },
+  {
+    id: "dns-attack-prevention",
+    num: "03",
+    title: "DNS Attack Prevention",
+    icon: Globe,
+    accent: "#D97706",
+    accentText: "text-amber-600",
+    accentBg: "bg-amber-50",
+    iconBg: "bg-amber-100",
+    accentDot: "bg-amber-500",
+    accentBorder: "border-amber-200",
+    calloutLabel: "Silent Risk",
+    callout:
+      "DNS hijacking can silently redirect your visitors to fake versions of your site — without any visible sign that anything is wrong.",
+    body: [
+      "Domain Name System (DNS) infrastructure plays a critical role in internet communication.",
+      "DNS attacks such as spoofing, cache poisoning, and hijacking can redirect users to malicious websites or disrupt service availability.",
+      "Protecting DNS infrastructure requires monitoring DNS traffic and implementing authentication mechanisms.",
+    ],
+    bullets: [
+      "DNS traffic monitoring",
+      "DNSSEC authentication",
+      "Cache poisoning prevention",
+      "Hijacking detection",
+    ],
+  },
+  {
+    id: "intrusion-detection",
+    num: "04",
+    title: "Server Intrusion Detection",
+    icon: Activity,
+    accent: "#0284C7",
+    accentText: "text-sky-600",
+    accentBg: "bg-sky-50",
+    iconBg: "bg-sky-100",
+    accentDot: "bg-sky-500",
+    accentBorder: "border-sky-200",
+    calloutLabel: "Why It Matters",
+    callout:
+      "Most server breaches go undetected for weeks — intrusion detection systems catch the behavioral signs that antivirus tools miss.",
+    body: [
+      "Intrusion detection systems monitor server activity to identify suspicious behavior that may indicate an ongoing attack.",
+      "These systems analyze network traffic, system logs, and user activity to detect unauthorized access attempts.",
+      "Early detection allows administrators to respond quickly and prevent further compromise.",
+    ],
+    bullets: [
+      "Network traffic analysis",
+      "System log monitoring",
+      "User activity tracking",
+      "Rapid alert & response",
+    ],
+  },
+  {
+    id: "hardening-linux",
+    num: "05",
+    title: "Hardening Linux Servers",
+    icon: ServerCog,
+    accent: "#059669",
+    accentText: "text-emerald-600",
+    accentBg: "bg-emerald-50",
+    iconBg: "bg-emerald-100",
+    accentDot: "bg-emerald-500",
+    accentBorder: "border-emerald-200",
+    calloutLabel: "Security Baseline",
+    callout:
+      "Every unused service running on a Linux server is a potential attack vector — hardening means closing every door you're not using.",
+    body: [
+      "Linux server hardening involves applying security configurations that reduce the attack surface of a system.",
+      "This includes disabling unnecessary services, enforcing access control policies, updating software components, and monitoring system activity.",
+      "A hardened server environment significantly reduces the risk of compromise.",
+    ],
+    bullets: [
+      "Disable unused services",
+      "Access control enforcement",
+      "Regular software updates",
+      "Continuous activity monitoring",
+    ],
+  },
+];
+
+export const OTHER_TOPICS = [
+  { label: "Website Security", href: "/security-academy/website-security" },
+  { label: "Malware Protection", href: "/security-academy/malware-protection" },
+  { label: "Ransomware Defense", href: "/security-academy/ransomware-defense" },
+  { label: "Spam Protection", href: "/security-academy/spam-protection" },
+  { label: "Security Basics", href: "/security-academy/security-basics" },
+];
