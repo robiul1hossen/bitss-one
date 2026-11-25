@@ -1,7 +1,5 @@
-"use client";
-
 import { Suspense } from "react";
-import SuccessInner from "@/components/pages/checkout/success/SuccessInner";
+import BandStripeSuccess from "@/components/pages/checkout/success/BandStripeSuccess";
 
 export default function SuccessPage() {
   return (
@@ -12,7 +10,7 @@ export default function SuccessPage() {
         </div>
       }
     >
-      <SuccessInner />
+      <BandStripeSuccess />
     </Suspense>
   );
 }

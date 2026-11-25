@@ -168,31 +168,14 @@ const eur0 = (n) =>
 
 /* pieces  */
 
-// function CheckIcon() {
-//   return (
-//     <svg
-//       viewBox="0 0 16 16"
-//       fill="none"
-//       className="w-4 h-4 mt-0.5 shrink-0 text-red-600"
-//       aria-hidden="true"
-//     >
-//       <path
-//         d="M3 8.5L6.2 11.5L13 4.5"
-//         stroke="currentColor"
-//         strokeWidth="1.6"
-//         strokeLinecap="round"
-//         strokeLinejoin="round"
-//       />
-//     </svg>
-//   );
-// }
-
 function SegButton({ active, onClick, children }) {
   return (
     <button
       onClick={onClick}
       className={`px-4 py-1.5 rounded-full text-sm font-['Outfit',sans-serif] font-bold tracking-tight transition-colors cursor-pointer ${
-        active ? "bg-red-600 text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
+        active
+          ? "bg-red-600 text-white shadow-xs"
+          : "text-slate-600 hover:text-slate-900"
       }`}
       style={{ fontFamily: "'Outfit', sans-serif" }}
     >
@@ -359,25 +342,25 @@ export default function ServerProtection2() {
         {plans.map((plan) => (
           <div key={plan.id}>
             {mode === "enterprise" ? (
-              <PrivateRoute>
-                <PlanCard
-                  plan={plan}
-                  mode={"enterprise"}
-                  activeTerm={activeTerm}
-                  activeTier={activeTier}
-                  qtyForCalc={qtyForCalc}
-                />
-              </PrivateRoute>
+              // <PrivateRoute>
+              <PlanCard
+                plan={plan}
+                mode={"enterprise"}
+                activeTerm={activeTerm}
+                activeTier={activeTier}
+                qtyForCalc={qtyForCalc}
+              />
             ) : (
-              <PrivateRoute>
-                <PlanCard
-                  plan={plan}
-                  mode={"individual"}
-                  activeTerm={activeTerm}
-                  activeTier={activeTier}
-                  qtyForCalc={qtyForCalc}
-                />
-              </PrivateRoute>
+              // </PrivateRoute>
+              // <PrivateRoute>
+              <PlanCard
+                plan={plan}
+                mode={"individual"}
+                activeTerm={activeTerm}
+                activeTier={activeTier}
+                qtyForCalc={qtyForCalc}
+              />
+              // </PrivateRoute>
             )}
           </div>
         ))}

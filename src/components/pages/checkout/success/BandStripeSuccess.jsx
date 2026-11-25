@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import { useCountry } from "@/context/CountryContext";
 
-export default function SuccessInner() {
+export default function BandStripeSuccess() {
   const searchParams = useSearchParams();
   const orderNumber = searchParams.get("order");
   const paymentMethod = searchParams.get("method");

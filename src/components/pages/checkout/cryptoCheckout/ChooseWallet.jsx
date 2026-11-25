@@ -10,11 +10,11 @@ const wallets = [
 
 export default function ChooseWallet({
   wallet,
-  setWallet,
-  setWalletError,
   walletError,
   txError,
-  handlePay,
+  onConnect,
+  onDisconnect,
+  onHandlePay,
   status,
   signature,
   validLink,
@@ -26,41 +26,6 @@ export default function ChooseWallet({
     "text-[10px] font-semibold tracking-widest text-gray-400 uppercase mb-2";
 
   const short = (a) => (a ? `${a.slice(0, 4)}…${a.slice(-4)}` : "");
-
-  const connectWallet = async (name) => {
-    setWalletError(null);
-    try {
-      const provider =
-        name === "Phantom" ? window?.phantom?.solana : window?.solflare;
-      const ok =
-        name === "Phantom" ? provider?.isPhantom : provider?.isSolflare;
-      if (!ok) throw new Error(`${name} is not installed in this browser.`);
-
-      const resp = await provider.connect();
-      let key = resp?.publicKey ?? provider.publicKey;
-      if (!key) {
-        await new Promise((r) => setTimeout(r, 150)); // Solflare sets it a moment later
-        key = provider.publicKey;
-      }
-      if (!key) throw new Error("Wallet gave no address. Unlock it and retry.");
-      setWallet({ provider, name, publicKey: key.toString() });
-    } catch (e) {
-      setWalletError(
-        e?.code === 4001
-          ? "You rejected the connection request."
-          : (e?.message ?? `Could not connect ${name}.`),
-      );
-    }
-  };
-
-  const disconnectWallet = async () => {
-    try {
-      await wallet?.provider?.disconnect();
-    } catch {
-      /* ignore */
-    }
-    setWallet(null);
-  };
 
   const payLabel = () => {
     if (isSuccess) return "✓ Payment Complete";
@@ -94,9 +59,7 @@ export default function ChooseWallet({
               key={name}
               type="button"
               disabled={isLoading}
-              onClick={() =>
-                connected ? disconnectWallet() : connectWallet(name)
-              }
+              onClick={() => (connected ? onDisconnect() : onConnect(name))}
               className={cn(
                 "group flex cursor-pointer items-center justify-between rounded-xl border px-4 py-3 transition-all disabled:cursor-not-allowed disabled:opacity-60",
                 connected
@@ -180,7 +143,7 @@ export default function ChooseWallet({
 
       <button
         type="button"
-        onClick={handlePay}
+        onClick={onHandlePay}
         disabled={!canPay}
         className={cn(
           "mt-3 w-full rounded-xl py-3.5 text-sm font-semibold transition-all",

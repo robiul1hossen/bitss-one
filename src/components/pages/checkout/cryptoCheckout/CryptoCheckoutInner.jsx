@@ -45,7 +45,6 @@ export default function CryptoCheckoutInner() {
   const orderNumber = params.get("order_number");
   const crypto = (params.get("crypto") || "").toUpperCase();
   const amount = params.get("amount");
-  // const amount = crypto === "SPUMP" ? "10" : params.get("amount");
   const isSol = crypto === "SOL";
   const validLink = SUPPORTED.includes(crypto) && Number(amount) > 0;
 
@@ -83,6 +82,41 @@ export default function CryptoCheckoutInner() {
   const productName =
     order?.product?.name ?? order?.product_name ?? "Bitss order";
   const amountText = validLink ? formatAmount(amount) : null;
+
+  const connectWallet = async (name) => {
+    setWalletError(null);
+    try {
+      const provider =
+        name === "Phantom" ? window?.phantom?.solana : window?.solflare;
+      const ok =
+        name === "Phantom" ? provider?.isPhantom : provider?.isSolflare;
+      if (!ok) throw new Error(`${name} is not installed in this browser.`);
+
+      const resp = await provider.connect();
+      let key = resp?.publicKey ?? provider.publicKey;
+      if (!key) {
+        await new Promise((r) => setTimeout(r, 150)); // Solflare sets it a moment later
+        key = provider.publicKey;
+      }
+      if (!key) throw new Error("Wallet gave no address. Unlock it and retry.");
+      setWallet({ provider, name, publicKey: key.toString() });
+    } catch (e) {
+      setWalletError(
+        e?.code === 4001
+          ? "You rejected the connection request."
+          : (e?.message ?? `Could not connect ${name}.`),
+      );
+    }
+  };
+
+  const disconnectWallet = async () => {
+    try {
+      await wallet?.provider?.disconnect();
+    } catch {
+      /* ignore */
+    }
+    setWallet(null);
+  };
 
   const verifyPayment = async (sig) => {
     setStatus("verifying");
@@ -218,7 +252,6 @@ export default function CryptoCheckoutInner() {
 
       setStatus("confirming");
       sig = await connection.sendRawTransaction(signed.serialize());
-      console.log(sig);
       setSignature(sig);
       const conf = await connection.confirmTransaction(
         { signature: sig, blockhash, lastValidBlockHeight },
@@ -312,12 +345,12 @@ export default function CryptoCheckoutInner() {
 
             {/* Choose wallet */}
             <ChooseWallet
-              setWallet={setWallet}
-              setWalletError={setWalletError}
               wallet={wallet}
               walletError={walletError}
               txError={txError}
-              handlePay={handlePay}
+              onConnect={connectWallet}
+              onDisconnect={disconnectWallet}
+              onHandlePay={handlePay}
               status={status}
               signature={signature}
               validLink={validLink}

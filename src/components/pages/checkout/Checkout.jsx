@@ -42,6 +42,7 @@ export default function Checkout() {
   } = params;
 
   const [paymentMethod, setPaymentMethod] = useState("bank_transfer");
+  const [selectedCrypto, setSelectedCrypto] = useState("spump");
   const [domain, setDomain] = useState("");
   const [validationError, setValidationError] = useState(null);
 
@@ -335,7 +336,7 @@ export default function Checkout() {
           selectedCountry?.currency_name?.toUpperCase(),
         );
 
-        window.open(approveUrl, "_blank");
+        window.open(approveUrl);
       } catch (err) {
         setPaypalError(err.message);
         setPaypalLoading(false);
@@ -441,6 +442,8 @@ export default function Checkout() {
                     }}
                     product={product}
                     bankInformation={bankInformation}
+                    selectedCrypto={selectedCrypto}
+                    onCryptoChange={setSelectedCrypto}
                   />
                   {product?.is_domain && (
                     <CheckoutDomain
@@ -491,6 +494,7 @@ export default function Checkout() {
               unit={unit}
               selectedCountry={selectedCountry}
               paymentMethod={paymentMethod}
+              selectedCrypto={selectedCrypto}
               domain={domain}
               deliveryAddress={deliveryAddress}
               deliveryPhone={deliveryPhone}

@@ -32,10 +32,10 @@ export default function CheckoutPaymentMethod({
   onChange,
   product,
   bankInformation,
+  selectedCrypto = "spump",
+  onCryptoChange,
 }) {
   const { selectedCountry } = useCountry();
-
-  const [selectedCrypto, setSelectedCrypto] = useState("spump");
 
   const isPhysical = Boolean(product?.is_delivery_address);
   const isBankPaymentIntegrated = (bankInformation?.length ?? 0) > 0;
@@ -52,8 +52,9 @@ export default function CheckoutPaymentMethod({
   }, [isBankAvailable, availableMethods, onChange, selected]);
 
   const handleCrypto = (id) => {
-    const isSelected = cryptoMethods.find((method) => method.id === id);
-    setSelectedCrypto(isSelected.id);
+    if (onCryptoChange) {
+      onCryptoChange(id);
+    }
   };
 
   const isSupported = isPaypalSupported(selectedCountry);
@@ -142,17 +143,25 @@ export default function CheckoutPaymentMethod({
         <div className="grid grid-cols-3 gap-2 p-4">
           {cryptoMethods.map((method) => {
             const isSelected = selectedCrypto === method.id;
+            const isSpump = method.id === "spump";
 
             return (
               <div
                 key={method.id}
                 onClick={() => handleCrypto(method.id)}
-                className={`relative border rounded-xl py-3.5 text-center flex items-center justify-center gap-1 cursor-pointer transition ${
+                className={`relative border rounded-xl py-3.5 px-2 text-center flex flex-col sm:flex-row items-center justify-center gap-1.5 cursor-pointer transition ${
                   isSelected
                     ? "border-sky-500 bg-sky-50"
                     : "border-gray-200 hover:border-gray-300"
                 }`}
               >
+                {/* 30% discount badge for SPUMP */}
+                {isSpump && (
+                  <span className="absolute -top-2.5 left-2 px-2 py-0.5 rounded-full bg-emerald-600 text-[10px] font-bold text-white shadow-xs tracking-tight">
+                    30% OFF
+                  </span>
+                )}
+
                 {/* Checkmark: only shows when this token is selected */}
                 {isSelected && (
                   <span className="absolute top-1.5 right-1.5 flex items-center justify-center w-4 h-4 rounded-full bg-sky-500">
@@ -167,7 +176,9 @@ export default function CheckoutPaymentMethod({
                   height={100}
                   className="w-5 h-5 object-cover"
                 />
-                <h2 className="font-semibold text-xl">{method.label}</h2>
+                <div className="flex items-center gap-1">
+                  <h2 className="font-semibold text-lg sm:text-xl">{method.label}</h2>
+                </div>
               </div>
             );
           })}

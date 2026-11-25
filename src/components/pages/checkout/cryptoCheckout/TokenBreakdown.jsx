@@ -8,6 +8,10 @@ export default function TokenBreakdown({
   crypto,
   amountText,
 }) {
+  const isSpump = crypto?.toUpperCase() === "SPUMP";
+  const numFiat = Number(fiat) || 0;
+  const netFiat = isSpump ? Number((numFiat * 0.7).toFixed(2)) : numFiat;
+
   const labelCls =
     "text-[10px] font-semibold tracking-widest text-gray-400 uppercase mb-2";
   return (
@@ -16,8 +20,8 @@ export default function TokenBreakdown({
       <div className="divide-y divide-gray-100 overflow-hidden rounded-xl border border-gray-200 bg-white">
         {[
           [
-            "Service Price",
-            money(fiat, fiatCurrency),
+            isSpump ? "Service Price (30% off)" : "Service Price",
+            money(netFiat, fiatCurrency),
             RefreshCw,
           ],
           ["Pay With", crypto, Coins],

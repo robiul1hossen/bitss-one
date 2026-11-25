@@ -19,6 +19,7 @@ export default function CheckoutSummary({
   unit,
   selectedCountry,
   paymentMethod,
+  selectedCrypto = "spump",
   domain,
   deliveryAddress,
   deliveryPhone,
@@ -37,6 +38,18 @@ export default function CheckoutSummary({
   const isStripe = paymentMethod === "stripe";
   const isPaypal = paymentMethod === "paypal";
   const isCrypto = paymentMethod === "crypto";
+  const isSpump = isCrypto && selectedCrypto?.toLowerCase() === "spump";
+
+  // SPUMP 30% discount calculation
+  const spumpDiscountAmount =
+    isSpump && basePrice != null
+      ? Number((Number(basePrice) * 0.3).toFixed(2))
+      : 0;
+
+  const effectiveTotal =
+    isSpump && displayTotal != null
+      ? Math.max(0, Number((displayTotal - spumpDiscountAmount).toFixed(2)))
+      : displayTotal;
 
   const isPaypalSupportedCurrency = isPaypalSupported(selectedCountry);
   const isPaypalDisabled = isPaypal && !isPaypalSupportedCurrency;
@@ -50,7 +63,7 @@ export default function CheckoutSummary({
     totalReady,
   } = usePaymentFee({
     paymentMethod,
-    amount: displayTotal,
+    amount: effectiveTotal,
     currency: selectedCountry?.currency_name,
   });
 
@@ -63,7 +76,7 @@ export default function CheckoutSummary({
     : {};
 
   const handleSubmit = async () => {
-    const cryptoCurrency = "SPUMP";
+    const cryptoCurrency = (selectedCrypto || "SPUMP").toUpperCase();
     if (isPaypalDisabled) return;
     if (isCrypto) {
       const res = await fetch(`${BASE_URL}/orders/create`, {
@@ -74,8 +87,9 @@ export default function CheckoutSummary({
         },
         body: JSON.stringify({
           product_id: product?.id,
-          amount: displayTotal,
+          amount: effectiveTotal,
           payment_method: "crypto",
+          user_country_currency: selectedCountry?.currency_name,
           crypto_currency: cryptoCurrency,
           country_id: selectedCountry?.id,
           subscription_period_id: subId,
@@ -167,18 +181,60 @@ export default function CheckoutSummary({
               </div>
             )}
 
-            {/* ─────────────────────────────────────────────────────── */}
-
-            {priceRow?.discount_amount > 0 && (
-              <div className="flex items-center justify-between text-[13px]">
-                <span className="text-emerald-600">Discount</span>
-                <span className="font-semibold text-emerald-600">
-                  {priceRow.discount_type === "flat"
-                    ? `−${currencySymbol}${priceRow.discount_amount}`
-                    : `−${priceRow.discount_amount}%`}
-                </span>
+            {isSpump ? (
+              <div className="space-y-2 pt-1 border-t border-slate-100">
+                <div className="flex items-center justify-between text-[13px]">
+                  <span className="text-slate-600">Base Price</span>
+                  <span className="font-semibold text-slate-800">
+                    {basePrice != null
+                      ? `${currencySymbol}${Number(basePrice).toFixed(2)}`
+                      : "—"}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-[13px] bg-emerald-50/80 border border-emerald-100 rounded-lg px-2.5 py-1.5">
+                  <span className="flex items-center gap-1.5 text-emerald-700 font-medium">
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    SPUMP Discount (30%)
+                  </span>
+                  <span className="font-bold text-emerald-700">
+                    −{currencySymbol}
+                    {spumpDiscountAmount.toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-[13px] pt-0.5">
+                  <span className="text-slate-700 font-semibold">
+                    Discounted Price
+                  </span>
+                  <span className="font-bold text-slate-900">
+                    {effectiveTotal != null
+                      ? `${currencySymbol}${Number(effectiveTotal).toFixed(2)}`
+                      : "—"}
+                  </span>
+                </div>
               </div>
+            ) : (
+              <>
+                <div className="flex items-center justify-between text-[13px]">
+                  <span className="text-slate-600">Base Price</span>
+                  <span className="font-semibold text-slate-800">
+                    {basePrice != null
+                      ? `${currencySymbol}${Number(basePrice).toFixed(2)}`
+                      : "—"}
+                  </span>
+                </div>
+                {priceRow?.discount_amount > 0 && (
+                  <div className="flex items-center justify-between text-[13px]">
+                    <span className="text-emerald-600">Discount</span>
+                    <span className="font-semibold text-emerald-600">
+                      {priceRow.discount_type === "flat"
+                        ? `−${currencySymbol}${priceRow.discount_amount}`
+                        : `−${priceRow.discount_amount}%`}
+                    </span>
+                  </div>
+                )}
+              </>
             )}
+
             {/* Processing fee (Stripe / PayPal only) */}
             {hasFee && rateToUSD > 0 && (
               <Row
