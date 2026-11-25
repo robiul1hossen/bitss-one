@@ -7,6 +7,7 @@ import { COMPARISON, PILLARS, PROMISES, PROTECTIONS } from "@/data/whyBitss";
 import ProtectionCard from "./ProtectionCard";
 import ComparisonRow from "./ComparisonRow";
 import PromiseCard from "./PromiseCard";
+import Link from "next/link";
 
 export default function WhyBitssPage() {
   return (
@@ -159,18 +160,18 @@ export default function WhyBitssPage() {
 
           {/* CTA */}
           <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center">
-            <a
+            <Link
               href="mailto:support@bobosohomail.com"
               className="inline-flex items-center justify-center gap-2.5 px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold text-[14px] sm:text-[15px] transition-all duration-300 shadow-lg shadow-red-900/40 hover:-translate-y-0.5 w-full xs:w-auto"
             >
               <Zap size={16} /> Request a Demo
-            </a>
-            <a
+            </Link>
+            <Link
               href="tel:+0033666100010"
               className="inline-flex items-center justify-center gap-2.5 px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white font-semibold text-[14px] sm:text-[15px] transition-all duration-300 hover:bg-slate-800 w-full xs:w-auto"
             >
               Talk to an Expert
-            </a>
+            </Link>
           </div>
         </div>
       </section>

@@ -132,7 +132,7 @@ export default function WebsiteSecurity() {
                   </p>
                   <div className="flex flex-col gap-1">
                     {OTHER_TOPICS.map((t) => (
-                      <a
+                      <Link
                         key={t.label}
                         href={t.href}
                         className="flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors"
@@ -142,7 +142,7 @@ export default function WebsiteSecurity() {
                           className="shrink-0 text-slate-300"
                         />
                         {t.label}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -161,19 +161,19 @@ export default function WebsiteSecurity() {
                   <p className="text-[11px] text-slate-400 uppercase tracking-widest font-semibold mb-1">
                     Next Topic
                   </p>
-                  <a
+                  <Link
                     href="/security-academy/malware-protection"
                     className="inline-flex items-center gap-2 text-[14px] font-semibold text-slate-800 hover:text-red-600 transition-colors"
                   >
                     Malware Protection <ChevronRight size={15} />
-                  </a>
+                  </Link>
                 </div>
-                <a
+                <Link
                   href="/security-academy"
                   className="inline-flex items-center gap-2 text-[13px] text-slate-500 hover:text-slate-800 transition-colors"
                 >
                   ← Back to Security Academy
-                </a>
+                </Link>
               </div>
             </main>
           </div>

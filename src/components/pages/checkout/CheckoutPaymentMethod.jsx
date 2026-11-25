@@ -6,6 +6,10 @@ import { Check, AlertCircle } from "lucide-react";
 import { useCountry } from "@/context/CountryContext";
 import { isPaypalSupported } from "@/data/paypalSupportedCurrency";
 
+// TODO: LIVE TRANSITION - Check supported tokens before going live:
+// Currently CryptoCheckoutInner only supports "SOL" and "SPUMP".
+// "USFF" and "USDC" are placeholders here without active SPL transfer handling in CryptoCheckoutInner.
+// When time to go live, either implement their contract/mint addresses and handler in CryptoCheckoutInner, or temporarily disable/hide USFF and USDC.
 const cryptoMethods = [
   {
     id: "spump",

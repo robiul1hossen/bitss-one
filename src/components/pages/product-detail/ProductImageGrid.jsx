@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import {
@@ -13,6 +19,7 @@ import {
   Maximize2,
   ArrowUpRight,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function ProductImageGrid({ images, productName, product }) {
   // Strict check: only render when images array has items
@@ -129,7 +136,7 @@ export default function ProductImageGrid({ images, productName, product }) {
     if (e.touches.length === 2) {
       touchDistRef.current = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
+        e.touches[0].clientY - e.touches[1].clientY,
       );
     } else if (e.touches.length === 1 && zoomScale > 1) {
       setIsDragging(true);
@@ -144,7 +151,7 @@ export default function ProductImageGrid({ images, productName, product }) {
     if (e.touches.length === 2 && touchDistRef.current) {
       const currentDist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
+        e.touches[0].clientY - e.touches[1].clientY,
       );
       const ratio = currentDist / touchDistRef.current;
       setZoomScale((prev) => Math.min(Math.max(prev * ratio, 1), 3.5));
@@ -161,7 +168,6 @@ export default function ProductImageGrid({ images, productName, product }) {
     touchDistRef.current = null;
     setIsDragging(false);
   };
-
 
   // ─── Unified Pack Detection (Variant packs or Single/Retail packs) ───────────────
   const variants = product?.variants || [];
@@ -195,7 +201,9 @@ export default function ProductImageGrid({ images, productName, product }) {
           product?.subscriptions?.filter((s) => s.variant_id === v.id) || [];
         variantSubs.sort((a, b) => {
           if (a.unit && b.unit) return Number(a.unit) - Number(b.unit);
-          return Number(a.price_after_discount) - Number(b.price_after_discount);
+          return (
+            Number(a.price_after_discount) - Number(b.price_after_discount)
+          );
         });
 
         return {
@@ -214,12 +222,13 @@ export default function ProductImageGrid({ images, productName, product }) {
     // 2. If product has NO variants (e.g. Retail Pack)
     const subs = [...(product?.subscriptions || [])];
     subs.sort((a, b) => {
-      if (a.duration && b.duration) return Number(a.duration) - Number(b.duration);
+      if (a.duration && b.duration)
+        return Number(a.duration) - Number(b.duration);
       return Number(a.price_after_discount) - Number(b.price_after_discount);
     });
 
     const isRetailPack = Boolean(
-      product?.name?.toLowerCase().includes("retail pack")
+      product?.name?.toLowerCase().includes("retail pack"),
     );
 
     // Retail pack with 4 images: First two English, second two French (2 grid)
@@ -248,7 +257,9 @@ export default function ProductImageGrid({ images, productName, product }) {
       ];
     }
 
-    let defaultTitle = isRetailPack ? "Retail Pack" : (product?.name || "Product Pack");
+    let defaultTitle = isRetailPack
+      ? "Retail Pack"
+      : product?.name || "Product Pack";
 
     return [
       {
@@ -347,7 +358,7 @@ export default function ProductImageGrid({ images, productName, product }) {
                 {/* 1. FRONT IMAGE (TOP) */}
                 <div
                   onClick={() => openLightbox(pack.frontImgIdx)}
-                  className={`group relative w-full ${getImageHeightClass()} bg-gradient-to-b from-slate-50 to-slate-100/70 rounded-xl sm:rounded-2xl border border-slate-200/90 p-2 sm:p-2.5 flex items-center justify-center cursor-pointer hover:border-red-400 hover:shadow-md transition-all overflow-hidden`}
+                  className={`group relative w-full ${getImageHeightClass()} bg-linear-to-b from-slate-50 to-slate-100/70 rounded-xl sm:rounded-2xl border border-slate-200/90 p-2 sm:p-2.5 flex items-center justify-center cursor-pointer hover:border-red-400 hover:shadow-md transition-all overflow-hidden`}
                   title="Tap to enlarge Front view"
                 >
                   <span className="absolute top-1.5 left-1.5 z-10 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-700 bg-white/95 border border-slate-200/90 px-1.5 py-0.5 rounded-md shadow-2xs backdrop-blur-xs">
@@ -372,7 +383,7 @@ export default function ProductImageGrid({ images, productName, product }) {
                 {pack.backImage && (
                   <div
                     onClick={() => openLightbox(pack.backImgIdx)}
-                    className={`group relative w-full ${getImageHeightClass()} bg-gradient-to-b from-slate-50 to-slate-100/70 rounded-xl sm:rounded-2xl border border-slate-200/90 p-2 sm:p-2.5 flex items-center justify-center cursor-pointer hover:border-red-400 hover:shadow-md transition-all overflow-hidden`}
+                    className={`group relative w-full ${getImageHeightClass()} bg-linear-to-b from-slate-50 to-slate-100/70 rounded-xl sm:rounded-2xl border border-slate-200/90 p-2 sm:p-2.5 flex items-center justify-center cursor-pointer hover:border-red-400 hover:shadow-md transition-all overflow-hidden`}
                     title="Tap to enlarge Back view"
                   >
                     <span className="absolute top-1.5 left-1.5 z-10 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-700 bg-white/95 border border-slate-200/90 px-1.5 py-0.5 rounded-md shadow-2xs backdrop-blur-xs">
@@ -400,7 +411,7 @@ export default function ProductImageGrid({ images, productName, product }) {
 
       {/* ─── CALLOUT BANNER: FOR EXISTING USB KEYS ─── */}
       {isUsbPhysical && (
-        <div className="mt-5 rounded-2xl border border-[#70C041]/35 bg-gradient-to-r from-[#70C041]/[0.09] via-emerald-50/30 to-[#70C041]/[0.05] p-3.5 sm:p-4 lg:px-5 shadow-xs transition-all hover:shadow-md">
+        <div className="mt-5 rounded-2xl border border-[#70C041]/35 bg-linear-to-r from-[#70C041]/[0.09] via-emerald-50/30 to-[#70C041]/[0.05] p-3.5 sm:p-4 lg:px-5 shadow-xs transition-all hover:shadow-md">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3.5 sm:gap-4">
             {/* Left: Single-Level All-Caps Professional Green Text in Outfit */}
             <p className="font-['Outfit'] uppercase tracking-tight leading-snug text-[13.5px] sm:text-[15px] lg:text-[16px]">
@@ -414,27 +425,27 @@ export default function ProductImageGrid({ images, productName, product }) {
             </p>
 
             {/* Right: Animated Branded CTA Button in Outfit */}
-            <a
+            <Link
               href="https://bitss.one/products/bitss-vwar-usb-flash-memory-key-protection-self-installation"
               target="_blank"
               rel="noopener noreferrer"
               className="relative overflow-hidden inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#70C041] hover:bg-[#5ca530] text-white font-['Outfit'] font-black text-[13px] sm:text-[13.5px] uppercase tracking-wider animate-cta-pulse transition-all shrink-0 cursor-pointer group/cta self-start lg:self-auto"
             >
               {/* Shimmer sweep effect */}
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-cta-shimmer pointer-events-none" />
+              <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent animate-cta-shimmer pointer-events-none" />
               <span className="relative z-10">PAY &amp; DOWNLOAD</span>
               <ArrowUpRight
                 size={16}
                 className="relative z-10 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 transition-transform shrink-0 stroke-[2.5]"
               />
-            </a>
+            </Link>
           </div>
         </div>
       )}
 
       {/* ─── CALLOUT BANNER: FOR RETAIL PACK (WINDOWS DEVICE) ─── */}
       {isRetailPack && (
-        <div className="mt-5 rounded-2xl border border-[#70C041]/35 bg-gradient-to-r from-[#70C041]/[0.09] via-emerald-50/30 to-[#70C041]/[0.05] p-3.5 sm:p-4 lg:px-5 shadow-xs transition-all hover:shadow-md">
+        <div className="mt-5 rounded-2xl border border-[#70C041]/35 bg-linear-to-r from-[#70C041]/[0.09] via-emerald-50/30 to-[#70C041]/[0.05] p-3.5 sm:p-4 lg:px-5 shadow-xs transition-all hover:shadow-md">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3.5 sm:gap-4">
             {/* Left: All-Caps Professional Green Text in Outfit with line break after BUY */}
             <p className="font-['Outfit'] uppercase tracking-tight leading-snug text-[13.5px] sm:text-[15px] lg:text-[16px]">
@@ -449,20 +460,20 @@ export default function ProductImageGrid({ images, productName, product }) {
             </p>
 
             {/* Right: Animated Branded CTA Button in Outfit */}
-            <a
+            <Link
               href="https://bitss.one/products/bitss-vwar-for-windows-device"
               target="_blank"
               rel="noopener noreferrer"
               className="relative overflow-hidden inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#70C041] hover:bg-[#5ca530] text-white font-['Outfit'] font-black text-[13px] sm:text-[13.5px] uppercase tracking-wider animate-cta-pulse transition-all shrink-0 cursor-pointer group/cta self-start lg:self-auto"
             >
               {/* Shimmer sweep effect */}
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-cta-shimmer pointer-events-none" />
+              <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent animate-cta-shimmer pointer-events-none" />
               <span className="relative z-10">PAY &amp; DOWNLOAD</span>
               <ArrowUpRight
                 size={16}
                 className="relative z-10 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 transition-transform shrink-0 stroke-[2.5]"
               />
-            </a>
+            </Link>
           </div>
         </div>
       )}
@@ -686,7 +697,7 @@ export default function ProductImageGrid({ images, productName, product }) {
               </div>
             </footer>
           </div>,
-          document.body
+          document.body,
         )}
     </div>
   );

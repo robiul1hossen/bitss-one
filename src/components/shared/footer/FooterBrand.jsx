@@ -34,12 +34,12 @@ export default function FooterBrand() {
         </button>
       </div>
 
-      <a
+      <Link
         href="mailto:support@bobosohomail.com"
         className="text-[13px] text-slate-500 hover:text-red-500 transition-colors underline underline-offset-2"
       >
         support@bobosohomail.com
-      </a>
+      </Link>
     </div>
   );
 }

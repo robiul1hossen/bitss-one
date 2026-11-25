@@ -142,14 +142,15 @@ export default function CryptoSuccess() {
                       {copied ? <Check size={12} /> : <Copy size={12} />}
                       {copied ? "Copied" : "Copy"}
                     </button>
-                    <a
+                    {/* TODO: LIVE TRANSITION - Dynamically switches to mainnet when NEXT_PUBLIC_RPC_ENDPOINT points to mainnet instead of devnet. */}
+                    <Link
                       href={`https://solscan.io/tx/${signature}${RPC?.includes("devnet") ? "?cluster=devnet" : ""}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-xs text-[#ff0000] underline underline-offset-2 hover:text-[#d90000]"
                     >
                       Solscan <ExternalLink size={12} />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

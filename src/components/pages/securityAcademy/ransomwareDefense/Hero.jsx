@@ -15,12 +15,12 @@ export default function Hero() {
             Home
           </Link>
           <ChevronRight size={12} />
-          <a
+          <Link
             href="/security-academy"
             className="hover:text-slate-600 transition-colors"
           >
             Security Academy
-          </a>
+          </Link>
           <ChevronRight size={12} />
           <span className="text-red-500">Ransomware Defense</span>
         </nav>

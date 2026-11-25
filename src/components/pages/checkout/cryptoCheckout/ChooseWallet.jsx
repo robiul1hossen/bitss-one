@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ChevronRight, ShieldCheck, Wallet } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 const RPC = process.env.NEXT_PUBLIC_RPC_ENDPOINT;
@@ -131,14 +132,16 @@ export default function ChooseWallet({
         </p>
       )}
       {signature && (
-        <a
+        /* TODO: LIVE TRANSITION - The link appends '?cluster=devnet' if RPC contains 'devnet'.
+           When NEXT_PUBLIC_RPC_ENDPOINT is set to production mainnet, verify this Solscan link resolves cleanly to mainnet. */
+        <Link
           href={`https://solscan.io/tx/${signature}${RPC?.includes("devnet") ? "?cluster=devnet" : ""}`}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-1 block text-center text-xs text-blue-500 underline"
         >
           View on Solscan
-        </a>
+        </Link>
       )}
 
       <button

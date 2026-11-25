@@ -297,12 +297,12 @@ export default function ProductDetailHero({ product, selectedVariantId }) {
                   </div>
                 </div>
 
-                <a
+                <Link
                   href="#pricing"
                   className="flex items-center justify-center gap-2 w-full py-2 sm:py-3.5 rounded-lg sm:rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-bold text-[12px] sm:text-[14px] shadow-md shadow-red-600/20 active:scale-98 transition-all duration-300"
                 >
                   View Plans <ChevronRight size={15} />
-                </a>
+                </Link>
               </div>
             </div>
           </div>

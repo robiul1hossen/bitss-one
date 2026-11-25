@@ -24,6 +24,11 @@ import ChooseWallet from "./ChooseWallet";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+// TODO: LIVE TRANSITION CHECKLIST:
+// 1. RPC & MINT CONFIGURATION: Verify NEXT_PUBLIC_RPC_ENDPOINT (currently devnet) and NEXT_PUBLIC_SPUMP_MINT_ADDRESS (currently devnet test mint) are switched to Mainnet.
+// 2. RECEIVER WALLET: Confirm NEXT_PUBLIC_RECEIVER_ADDRESS matches the live merchant treasury wallet.
+// 3. SUPPORTED TOKENS: Currently only "SOL" and "SPUMP" are supported here.
+//    If "USFF" and "USDC" from CheckoutPaymentMethod are enabled for live launch, add their SPL token mint addresses and extend SUPPORTED and handlePay() accordingly.
 const RECEIVER = process.env.NEXT_PUBLIC_RECEIVER_ADDRESS;
 const RPC = process.env.NEXT_PUBLIC_RPC_ENDPOINT;
 const MINT_ADDRESS = process.env.NEXT_PUBLIC_SPUMP_MINT_ADDRESS;

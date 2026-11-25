@@ -127,7 +127,7 @@ export default function NavbarCenter() {
           <DropdownMenuContent
             align="start"
             sideOffset={18}
-            className="z-[150] w-[380px] sm:w-[410px] rounded-2xl shadow-2xl shadow-slate-900/10 border border-slate-100 bg-white p-2.5 overflow-hidden"
+            className="z-150 w-95 sm:w-102.5 rounded-2xl shadow-2xl shadow-slate-900/10 border border-slate-100 bg-white p-2.5 overflow-hidden"
           >
             <div className="flex flex-col gap-1.5">
               {/* All Products */}
@@ -219,7 +219,7 @@ export default function NavbarCenter() {
                             side={tooltipSide}
                             sideOffset={10}
                             avoidCollisions={false}
-                            className="bg-white border-2 border-red-200 text-slate-700 text-xs leading-relaxed shadow-2xl max-w-64 p-3 rounded-xl z-[9999]"
+                            className="bg-white border-2 border-red-200 text-slate-700 text-xs leading-relaxed shadow-2xl max-w-64 p-3 rounded-xl z-9999"
                           >
                             <p className="font-medium text-slate-800 text-[11px] leading-relaxed">
                               {cat.tooltip}
@@ -230,7 +230,7 @@ export default function NavbarCenter() {
                     })}
 
                     {/* BITSS Crypto Audit — Reddish accent */}
-                    <a
+                    <Link
                       href="https://cryptoaudit.bitss.one"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -257,7 +257,7 @@ export default function NavbarCenter() {
                         size={14}
                         className="text-red-300 group-hover:text-red-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0 transition-all"
                       />
-                    </a>
+                    </Link>
                   </div>
                 </TooltipProvider>
               )}
@@ -283,7 +283,7 @@ export default function NavbarCenter() {
               <DropdownMenuContent
                 align="start"
                 sideOffset={18}
-                className="z-[150] w-72 rounded-2xl shadow-2xl border border-slate-100 overflow-hidden p-0"
+                className="z-150 w-72 rounded-2xl shadow-2xl border border-slate-100 overflow-hidden p-0"
               >
                 {/* Header banner */}
                 <Link

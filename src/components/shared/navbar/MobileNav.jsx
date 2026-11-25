@@ -165,7 +165,7 @@ export default function MobileNav({ menuOpen, setMenuOpen }) {
                 })}
 
                 {/* BITSS Crypto Security - Insights & Audits — Reddish accent */}
-                <a
+                <Link
                   href="https://cryptoaudit.bitss.one"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -179,7 +179,7 @@ export default function MobileNav({ menuOpen, setMenuOpen }) {
                     BITSS Crypto Security - Insights & Audits
                   </span>
                   <ArrowUpRight size={14} className="text-red-400 shrink-0" />
-                </a>
+                </Link>
               </div>
             )}
           </div>

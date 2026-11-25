@@ -133,7 +133,7 @@ export default function ConfirmBankPaymentForm({
       localStorage.setItem(`payment_sent_${orderId}`, data?.success);
     },
     onError: (error) => {
-      console.log("mutation error:", error.message);
+      console.error("mutation error:", error.message);
       toast.error(error?.message);
     },
   });
@@ -162,18 +162,30 @@ export default function ConfirmBankPaymentForm({
 
         <div className="grid grid-cols-2 gap-2 text-[11px]">
           <div>
-            <p className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wide">Bank</p>
-            <p className="font-semibold text-slate-800 truncate">{bankInfo?.bank_name || "—"}</p>
+            <p className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wide">
+              Bank
+            </p>
+            <p className="font-semibold text-slate-800 truncate">
+              {bankInfo?.bank_name || "—"}
+            </p>
           </div>
           <div>
-            <p className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wide">Holder</p>
-            <p className="font-semibold text-slate-800 truncate">{bankInfo?.acc_holder_name || "—"}</p>
+            <p className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wide">
+              Holder
+            </p>
+            <p className="font-semibold text-slate-800 truncate">
+              {bankInfo?.acc_holder_name || "—"}
+            </p>
           </div>
           <div className="col-span-2">
             <div className="flex items-center justify-between">
-              <p className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wide">Account No / IBAN</p>
+              <p className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wide">
+                Account No / IBAN
+              </p>
               {copiedAccount && (
-                <span className="text-[9.5px] font-bold text-emerald-600">Copied!</span>
+                <span className="text-[9.5px] font-bold text-emerald-600">
+                  Copied!
+                </span>
               )}
             </div>
             <div className="flex items-center justify-between bg-white px-2.5 py-1 rounded-lg border border-slate-200 mt-0.5">
@@ -188,7 +200,10 @@ export default function ConfirmBankPaymentForm({
                   title="Copy IBAN"
                 >
                   {copiedAccount ? (
-                    <Check size={13} className="text-emerald-600 stroke-[2.5]" />
+                    <Check
+                      size={13}
+                      className="text-emerald-600 stroke-[2.5]"
+                    />
                   ) : (
                     <Copy size={13} />
                   )}
@@ -198,19 +213,25 @@ export default function ConfirmBankPaymentForm({
           </div>
           {bankInfo?.swift_code && (
             <div>
-              <p className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wide">Swift</p>
-              <p className="font-mono font-semibold text-slate-800 text-[11px]">{bankInfo.swift_code}</p>
+              <p className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wide">
+                Swift
+              </p>
+              <p className="font-mono font-semibold text-slate-800 text-[11px]">
+                {bankInfo.swift_code}
+              </p>
             </div>
           )}
           <div className="text-right">
-            <p className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wide">Total Due</p>
+            <p className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wide">
+              Total Due
+            </p>
             <p className="font-['Outfit',sans-serif] text-sm font-black text-red-600">
               <span
                 dangerouslySetInnerHTML={{
                   __html: orderData?.country?.currency_icon || "€",
                 }}
-              />
-              {" "}{orderData?.amount}
+              />{" "}
+              {orderData?.amount}
             </p>
           </div>
         </div>
@@ -230,7 +251,9 @@ export default function ConfirmBankPaymentForm({
             className="w-full rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-100 transition-all placeholder:text-slate-400"
           />
           {errors.transaction_id && (
-            <p className="text-red-600 text-[10.5px] mt-0.5">{errors.transaction_id}</p>
+            <p className="text-red-600 text-[10.5px] mt-0.5">
+              {errors.transaction_id}
+            </p>
           )}
         </div>
 
@@ -247,7 +270,9 @@ export default function ConfirmBankPaymentForm({
               className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-100 transition-all"
             />
             {errors.payment_date && (
-              <p className="text-red-600 text-[10.5px] mt-0.5">{errors.payment_date}</p>
+              <p className="text-red-600 text-[10.5px] mt-0.5">
+                {errors.payment_date}
+              </p>
             )}
           </div>
 
@@ -265,7 +290,9 @@ export default function ConfirmBankPaymentForm({
               className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-100 transition-all placeholder:text-slate-400"
             />
             {errors.amount && (
-              <p className="text-red-600 text-[10.5px] mt-0.5">{errors.amount}</p>
+              <p className="text-red-600 text-[10.5px] mt-0.5">
+                {errors.amount}
+              </p>
             )}
           </div>
         </div>
@@ -308,12 +335,18 @@ export default function ConfirmBankPaymentForm({
               <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 shrink-0">
                 <UploadCloud size={13} />
               </div>
-              <span className="text-xs font-semibold text-slate-700">Upload transfer receipt</span>
-              <span className="text-[10px] text-slate-400">(PNG, JPG, PDF)</span>
+              <span className="text-xs font-semibold text-slate-700">
+                Upload transfer receipt
+              </span>
+              <span className="text-[10px] text-slate-400">
+                (PNG, JPG, PDF)
+              </span>
             </button>
           )}
           {errors.document && (
-            <p className="text-red-600 text-[10.5px] mt-0.5">{errors.document}</p>
+            <p className="text-red-600 text-[10.5px] mt-0.5">
+              {errors.document}
+            </p>
           )}
         </div>
 
@@ -331,8 +364,12 @@ export default function ConfirmBankPaymentForm({
             }
             className="mt-0.5 rounded border-slate-300 text-red-600 focus:ring-red-500 accent-red-600 cursor-pointer shrink-0"
           />
-          <label htmlFor="agreement" className="text-[11px] text-slate-600 cursor-pointer leading-tight">
-            I confirm I have completed the bank transfer for the amount shown above.
+          <label
+            htmlFor="agreement"
+            className="text-[11px] text-slate-600 cursor-pointer leading-tight"
+          >
+            I confirm I have completed the bank transfer for the amount shown
+            above.
           </label>
         </div>
         {errors.confirmed && (

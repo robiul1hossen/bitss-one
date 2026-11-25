@@ -58,7 +58,11 @@ export default function OrderDetailsInner() {
   const crypto = order?.crypto_payment;
 
   const isCryptoPayment = !!crypto?.id && !!crypto?.signature;
-  const cryptoAmount = (Number(crypto?.amount) || 0).toFixed(9);
+  const cryptoAmount = Number(crypto?.amount);
+
+  const formattedCryptoAmount = Number.isFinite(cryptoAmount)
+    ? cryptoAmount.toFixed(9)
+    : "0";
 
   const short = (a) => (a ? `${a.slice(0, 4)}…${a.slice(-4)}` : "");
 
@@ -145,7 +149,8 @@ export default function OrderDetailsInner() {
                   </span>
                   {isCryptoPayment && (
                     <span className="text-[11px] text-gray-500">
-                      Paid with {crypto?.currency || "SPUMP"} on {crypto?.network || "Solana"}
+                      Paid with {crypto?.currency || "SPUMP"} on{" "}
+                      {crypto?.network || "Solana"}
                     </span>
                   )}
                 </div>
@@ -217,12 +222,12 @@ export default function OrderDetailsInner() {
                   </p>
                   <p className="text-xs text-gray-700 leading-relaxed">
                     <span className="font-medium">Email:</span>{" "}
-                    <a
+                    <Link
                       href="mailto:support@boboshomail.com"
                       className="text-blue-600 hover:underline"
                     >
                       support@boboshomail.com
-                    </a>
+                    </Link>
                   </p>
                   <p className="text-xs text-gray-700 leading-relaxed">
                     <span className="font-medium">Company Reg No:</span>{" "}
@@ -332,7 +337,7 @@ export default function OrderDetailsInner() {
                       </span>
                       <div className="text-right">
                         <span className="text-lg font-black text-red-600 font-mono tracking-tight">
-                          {cryptoAmount}
+                          {formattedCryptoAmount}
                         </span>{" "}
                         <span className="text-xs font-bold text-red-600">
                           {crypto?.currency}
@@ -364,7 +369,9 @@ export default function OrderDetailsInner() {
                       </div>
                       <div className="flex justify-between items-center text-slate-600">
                         <span>Confirmed on</span>
-                        <span className="text-slate-800">{formatDate(crypto?.created_at)}</span>
+                        <span className="text-slate-800">
+                          {formatDate(crypto?.created_at)}
+                        </span>
                       </div>
                       <div className="flex justify-between items-center text-slate-600">
                         <span>Transaction ID</span>
@@ -372,7 +379,9 @@ export default function OrderDetailsInner() {
                           <span className="font-mono text-slate-800">
                             {short(crypto?.signature)}
                           </span>
-                          {/* todo: change the url for real mint */}
+                          {/* TODO: LIVE TRANSITION - Change devnet URL to mainnet.
+                              Currently hardcoded to '?cluster=devnet' for testing.
+                              When going live, remove '?cluster=devnet' or dynamically check network/RPC so it links to the live Solana mainnet transaction on Solscan. */}
                           <Link
                             href={`https://solscan.io/tx/${crypto?.signature}?cluster=devnet`}
                             target="_blank"
@@ -392,7 +401,10 @@ export default function OrderDetailsInner() {
                     </p>
                   </div>
                 ) : (
-                  <div className="hidden lg:block lg:col-span-7" aria-hidden="true" />
+                  <div
+                    className="hidden lg:block lg:col-span-7"
+                    aria-hidden="true"
+                  />
                 )}
 
                 {/* Right: Totals (stays in lg:col-span-5) */}
@@ -439,7 +451,7 @@ export default function OrderDetailsInner() {
                     {isCryptoPayment && (
                       <div className="text-right pt-0.5">
                         <span className="text-[11px] font-semibold text-red-600">
-                          Paid in {cryptoAmount} {crypto?.currency}
+                          Paid in {formattedCryptoAmount} {crypto?.currency}
                         </span>
                       </div>
                     )}
