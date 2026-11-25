@@ -4,12 +4,8 @@ import { Loader2, Truck, MapPin, Phone, AlertCircle } from "lucide-react";
 import { PAYMENT_METHODS } from "@/utils/constants/checkout";
 import { durationLabel } from "@/utils/checkoutUtils";
 import Row from "./Row";
-import { useRouter } from "next/navigation";
 import { isPaypalSupported } from "@/data/paypalSupportedCurrency";
 import { usePaymentFee } from "@/hooks/usePaymentFee";
-import { useAuth } from "@/context/AuthContext";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default function CheckoutSummary({
   product,
@@ -32,9 +28,6 @@ export default function CheckoutSummary({
   productSlug,
   hideButton,
 }) {
-  const router = useRouter();
-  const { token } = useAuth();
-
   const isStripe = paymentMethod === "stripe";
   const isPaypal = paymentMethod === "paypal";
   const isCrypto = paymentMethod === "crypto";
@@ -67,45 +60,8 @@ export default function CheckoutSummary({
     currency: selectedCountry?.currency_name,
   });
 
-  // Delivery address payload
-  const deliveryPayload = product?.is_delivery_address
-    ? {
-        delivery_address: deliveryAddress.trim(),
-        delivery_phone_number: deliveryPhone.trim(),
-      }
-    : {};
-
   const handleSubmit = async () => {
-    const cryptoCurrency = (selectedCrypto || "SPUMP").toUpperCase();
     if (isPaypalDisabled) return;
-    if (isCrypto) {
-      const res = await fetch(`${BASE_URL}/orders/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({
-          product_id: product?.id,
-          amount: effectiveTotal,
-          payment_method: "crypto",
-          user_country_currency: selectedCountry?.currency_name,
-          crypto_currency: cryptoCurrency,
-          country_id: selectedCountry?.id,
-          subscription_period_id: subId,
-          variant_id: variantId,
-          ...(product?.is_domain && { domain: domain.trim() }),
-          ...deliveryPayload,
-        }),
-      });
-      if (!res.ok) throw new Error("Failed To Create Order");
-      const data = await res.json();
-
-      router.push(
-        `/checkout/crypto-payment?order_id=${data?.order?.id}&order_number=${data?.order?.order_number}&crypto=${cryptoCurrency}&amount=${data?.crypto?.payment_amount}`,
-      );
-      return;
-    }
     onSubmit();
   };
 

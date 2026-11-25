@@ -35,12 +35,12 @@ export default function OrderDetails({
               Order {orderNumber}
             </span>
           </div>
-          <div className="text-right">
+          <div className="text-right w-32">
             <p className="text-lg font-bold text-white">
               {money(netPrice, fiatCurrency)}
             </p>
             {isSpump && (
-              <span className="inline-block text-[10.5px] font-medium text-emerald-200 bg-white/20 px-2 py-0.5 rounded-full">
+              <span className="inline-block w-full text-[10.5px] font-medium text-emerald-200 bg-white/20 px-2 py-0.5 rounded-full">
                 30% SPUMP OFF
               </span>
             )}

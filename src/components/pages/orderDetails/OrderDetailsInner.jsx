@@ -6,7 +6,15 @@ import LicenseTable from "@/components/pages/orderDetails/LicenseTable";
 import { formatDate } from "@/utils/orderHelpers";
 import BankPaymentConfirmationDialog from "@/components/dashboard/bankPaymentConfirmation/BankPaymentConfirmationDialog";
 import { useState } from "react";
-import { AlertCircle, ArrowLeft, ChevronRight, Loader2 } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowLeft,
+  Check,
+  ChevronRight,
+  ExternalLink,
+  Loader2,
+  Wallet,
+} from "lucide-react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -47,6 +55,12 @@ export default function OrderDetailsInner() {
   const additionalCharge = Number(order?.additional_charge) ?? 0;
   const processingFee = Number(additionalCharge.toFixed(2)) ?? 0;
   const TotalAmount = Number((order?.amount + processingFee).toFixed(2)) ?? 0;
+  const crypto = order?.crypto_payment;
+
+  const isCryptoPayment = !!crypto?.id && !!crypto?.signature;
+  const cryptoAmount = (Number(crypto?.amount) || 0).toFixed(9);
+
+  const short = (a) => (a ? `${a.slice(0, 4)}…${a.slice(-4)}` : "");
 
   if (isLoading)
     return (
@@ -121,7 +135,7 @@ export default function OrderDetailsInner() {
                     #{order?.order_number}
                   </p>
                 </div>
-                <div>
+                <div className="flex flex-col items-center sm:items-end gap-1">
                   <span
                     className={`text-white px-3 py-1 text-xs font-bold rounded-full ${
                       status === "Paid" ? "bg-green-500" : "bg-red-500"
@@ -129,6 +143,11 @@ export default function OrderDetailsInner() {
                   >
                     {status}
                   </span>
+                  {isCryptoPayment && (
+                    <span className="text-[11px] text-gray-500">
+                      Paid with {crypto?.currency || "SPUMP"} on {crypto?.network || "Solana"}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -286,70 +305,168 @@ export default function OrderDetailsInner() {
                 </table>
               </div>
 
-              {/* Totals */}
-              <div className="flex justify-end mb-6">
-                <div className="w-full sm:w-80 space-y-2 text-sm bg-gray-50/80 p-4 rounded-xl border border-gray-100">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-gray-600">Sub Total:</span>
-                    <span className="font-medium">
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: order?.country?.currency_icon,
-                        }}
-                      />{" "}
-                      {order?.amount}
-                    </span>
-                  </div>
+              {/* Crypto Payment Section & Totals Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-6">
+                {/* Left: Crypto Payment Details Card (or empty space placeholder when not crypto) */}
+                {isCryptoPayment ? (
+                  <div className="lg:col-span-7 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
+                    {/* Header */}
+                    <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-100">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-md bg-red-50 flex items-center justify-center text-red-500">
+                          <Wallet size={14} />
+                        </div>
+                        <span className="font-bold text-slate-900 text-sm">
+                          Crypto Payment
+                        </span>
+                      </div>
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-100">
+                        <Check size={12} strokeWidth={2.5} /> Verified on-chain
+                      </span>
+                    </div>
 
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-gray-600">Processing Fee:</span>
-                    <span className="font-medium">
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: order?.country?.currency_icon,
-                        }}
-                      />{" "}
-                      {processingFee}
-                    </span>
+                    {/* Amount Paid Callout */}
+                    <div className="flex items-center justify-between bg-slate-50/70 rounded-xl px-4 py-3 mb-4 border border-slate-100">
+                      <span className="text-[11px] font-bold text-slate-500 tracking-wider uppercase">
+                        AMOUNT PAID
+                      </span>
+                      <div className="text-right">
+                        <span className="text-lg font-black text-red-600 font-mono tracking-tight">
+                          {cryptoAmount}
+                        </span>{" "}
+                        <span className="text-xs font-bold text-red-600">
+                          {crypto?.currency}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Key-Value Details */}
+                    <div className="space-y-2.5 text-xs">
+                      <div className="flex justify-between items-center text-slate-600">
+                        <span>Network</span>
+                        <span className="font-semibold text-slate-900">
+                          {crypto?.network}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center text-slate-600">
+                        <span>Currency</span>
+                        <span className="font-semibold text-slate-900">
+                          {crypto?.currency === "SPUMP"
+                            ? " SPUMP (SPL token)"
+                            : "SOL"}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center text-slate-600">
+                        <span>Sender wallet</span>
+                        <span className="font-mono text-slate-800">
+                          {short(crypto?.sender_wallet)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center text-slate-600">
+                        <span>Confirmed on</span>
+                        <span className="text-slate-800">{formatDate(crypto?.created_at)}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-slate-600">
+                        <span>Transaction ID</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-mono text-slate-800">
+                            {short(crypto?.signature)}
+                          </span>
+                          {/* todo: change the url for real mint */}
+                          <Link
+                            href={`https://solscan.io/tx/${crypto?.signature}?cluster=devnet`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-0.5 text-red-600 underline font-medium hover:text-red-700"
+                          >
+                            Solscan <ExternalLink size={11} />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Footnote */}
+                    <p className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-400 leading-relaxed">
+                      This payment was confirmed on the Solana blockchain.
+                      Network fees were paid by the sender.
+                    </p>
                   </div>
-                  <div className="border-t border-gray-200 pt-2 flex justify-between items-center">
-                    <span className="text-gray-700 font-bold">
-                      {status === "Paid"
-                        ? "Total Paid Amount:"
-                        : "Net Payable:"}
-                    </span>
-                    <span className="font-bold text-base text-gray-900 font-['Outfit']">
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: order?.country?.currency_icon,
-                        }}
-                      />{" "}
-                      {TotalAmount}
-                    </span>
+                ) : (
+                  <div className="hidden lg:block lg:col-span-7" aria-hidden="true" />
+                )}
+
+                {/* Right: Totals (stays in lg:col-span-5) */}
+                <div className="lg:col-span-5 flex justify-end w-full">
+                  <div className="w-full space-y-2 text-sm bg-gray-50/80 p-4 rounded-xl border border-gray-100">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-gray-600">Sub Total:</span>
+                      <span className="font-medium">
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: order?.country?.currency_icon,
+                          }}
+                        />{" "}
+                        {order?.amount}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-gray-600">Processing Fee:</span>
+                      <span className="font-medium">
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: order?.country?.currency_icon,
+                          }}
+                        />{" "}
+                        {processingFee}
+                      </span>
+                    </div>
+                    <div className="border-t border-gray-200 pt-2 flex justify-between items-center">
+                      <span className="text-gray-700 font-bold">
+                        {status === "Paid"
+                          ? "Total Paid Amount:"
+                          : "Net Payable:"}
+                      </span>
+                      <span className="font-bold text-base text-gray-900 font-['Outfit']">
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: order?.country?.currency_icon,
+                          }}
+                        />{" "}
+                        {TotalAmount}
+                      </span>
+                    </div>
+                    {isCryptoPayment && (
+                      <div className="text-right pt-0.5">
+                        <span className="text-[11px] font-semibold text-red-600">
+                          Paid in {cryptoAmount} {crypto?.currency}
+                        </span>
+                      </div>
+                    )}
+                    {hasBankInfo && order?.payment_status === "unpaid" && (
+                      <>
+                        <button
+                          onClick={() => setOpen(true)}
+                          disabled={sentPaymentRequest}
+                          className={`w-full text-xs font-bold py-2 rounded-lg text-white mt-3 transition-colors ${
+                            sentPaymentRequest
+                              ? "cursor-not-allowed bg-green-500"
+                              : "bg-red-600 hover:bg-red-700 cursor-pointer shadow-sm shadow-red-600/20"
+                          }`}
+                        >
+                          {sentPaymentRequest
+                            ? "Payment Request Submitted"
+                            : "Confirm Bank Payment"}
+                        </button>
+                        <BankPaymentConfirmationDialog
+                          setSentPaymentRequest={setSentPaymentRequest}
+                          open={open}
+                          onOpenChange={setOpen}
+                          orderId={orderId}
+                        />
+                      </>
+                    )}
                   </div>
-                  {hasBankInfo && order?.payment_status === "unpaid" && (
-                    <>
-                      <button
-                        onClick={() => setOpen(true)}
-                        disabled={sentPaymentRequest}
-                        className={`w-full text-xs font-bold py-2 rounded-lg text-white mt-3 transition-colors ${
-                          sentPaymentRequest
-                            ? "cursor-not-allowed bg-green-500"
-                            : "bg-red-600 hover:bg-red-700 cursor-pointer shadow-sm shadow-red-600/20"
-                        }`}
-                      >
-                        {sentPaymentRequest
-                          ? "Payment Request Submitted"
-                          : "Confirm Bank Payment"}
-                      </button>
-                      <BankPaymentConfirmationDialog
-                        setSentPaymentRequest={setSentPaymentRequest}
-                        open={open}
-                        onOpenChange={setOpen}
-                        orderId={orderId}
-                      />
-                    </>
-                  )}
                 </div>
               </div>
               {hasCredentials && (

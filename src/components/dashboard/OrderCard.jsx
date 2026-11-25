@@ -1,13 +1,5 @@
 import Link from "next/link";
-import {
-  ChevronRight,
-  Usb,
-  Layers,
-  Box,
-  Files,
-  Shapes,
-  ShieldCheck,
-} from "lucide-react";
+import { Usb, Layers, Box, Files, Shapes, ShieldCheck } from "lucide-react";
 import {
   getCurrencySymbol,
   getProductTypeBadge,
@@ -36,6 +28,8 @@ export default function OrderCard({ order }) {
   const statusBadge = getStatusBadge(order.status);
 
   const totalAmount = Number(order?.amount) + Number(order?.additional_charge);
+  console.log(order);
+  const cryptoAmount = Number(order?.crypto_payment?.amount).toFixed(9) ?? 0;
 
   return (
     <div className="group bg-white rounded-2xl border border-slate-200/90 hover:border-red-200 hover:shadow-xl hover:shadow-red-50/60 transition-all duration-300 overflow-hidden relative block">
@@ -78,9 +72,10 @@ export default function OrderCard({ order }) {
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
               Amount
             </p>
-            <p className="text-[16px] font-black text-slate-900 font-['Outfit']">
-              {currency}
-              {formatPrice(totalAmount)}
+            <p className="text-[16px] font-black text-slate-700 font-['Outfit']">
+              {order?.payment_method === "crypto"
+                ? `${cryptoAmount ?? 0} ${order?.crypto_payment?.currency ?? ""}`
+                : `${currency}${formatPrice(totalAmount)}`}
             </p>
           </div>
 

@@ -59,6 +59,10 @@ export default function Checkout() {
   const [paypalLoading, setPaypalLoading] = useState(false);
   const [paypalError, setPaypalError] = useState(null);
 
+  // crypto state
+  const [cryptoLoading, setCryptoLoading] = useState(false);
+  const [cryptoError, setCryptoError] = useState(null);
+
   const bankInformation = selectedCountry?.bank_informations || [];
 
   const {
@@ -206,6 +210,8 @@ export default function Checkout() {
     resetMutation();
     setValidationError(null);
     setStripeError(null);
+    setPaypalError(null);
+    setCryptoError(null);
 
     if (product?.is_domain && !domain.trim()) {
       setValidationError("Please enter the domain for this license.");
@@ -227,9 +233,9 @@ export default function Checkout() {
           delivery_address: deliveryAddress.trim(),
           delivery_phone_number: deliveryPhone.trim(),
         }
-      : {}; // ────────────────────────────────────────────────────────────
+      : {};
 
-    // ── Stripe path ──────────────────────────────────────────────
+    //  Stripe path
     if (paymentMethod === "stripe") {
       setStripeLoading(true);
       try {
@@ -289,7 +295,7 @@ export default function Checkout() {
       }
       return;
     }
-    // ── End Stripe path ──────────────────────────────────────────
+    //  End Stripe path
 
     // Paypal Payment here
     if (paymentMethod === "paypal") {
@@ -345,6 +351,59 @@ export default function Checkout() {
     }
     // Paypal End here
 
+    //  Crypto path
+    if (paymentMethod === "crypto") {
+      setCryptoLoading(true);
+      try {
+        const cryptoCurrency = (selectedCrypto || "SPUMP").toUpperCase();
+        const isSpump = cryptoCurrency === "SPUMP";
+        const spumpDiscountAmount =
+          isSpump && basePrice != null
+            ? Number((Number(basePrice) * 0.3).toFixed(2))
+            : 0;
+        const effectiveTotal =
+          isSpump && displayTotal != null
+            ? Math.max(
+                0,
+                Number((displayTotal - spumpDiscountAmount).toFixed(2)),
+              )
+            : displayTotal;
+
+        const res = await fetch(`${BASE_URL}/orders/create`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({
+            product_id: productId,
+            amount: effectiveTotal,
+            payment_method: "crypto",
+            user_country_currency: selectedCountry?.currency_name,
+            crypto_currency: cryptoCurrency,
+            country_id: countryId,
+            subscription_period_id: activeSubId,
+            variant_id: activeVariantId,
+            ...(product?.is_domain && { domain: domain.trim() }),
+            ...deliveryPayload,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok || data.status === false || data.success === false) {
+          throw new Error(data.message || "Failed to create crypto order.");
+        }
+
+        router.push(
+          `/checkout/crypto-payment?order_id=${data?.order?.id}&order_number=${data?.order?.order_number}&crypto=${cryptoCurrency}&amount=${data?.crypto?.payment_amount}`,
+        );
+      } catch (err) {
+        setCryptoError(err.message);
+        setCryptoLoading(false);
+      }
+      return;
+    }
+    //  End Crypto path
+
     placeOrder({
       product_id: productId,
       amount: displayTotal,
@@ -357,7 +416,7 @@ export default function Checkout() {
     });
   };
 
-  if (isLoading || paypalLoading)
+  if (isLoading || paypalLoading || cryptoLoading)
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
@@ -378,7 +437,7 @@ export default function Checkout() {
             Product Not Found
           </h2>
           <p className="text-[13px] text-slate-400 mb-6">
-            {error?.message ?? "Could not load product details."}
+            {error?.message ?? paypalError ?? "Could not load product details."}
           </p>
           <Link
             href="/products"
@@ -412,14 +471,20 @@ export default function Checkout() {
 
           <div className="grid grid-cols-12 gap-6 lg:gap-8 items-start w-full">
             <div className="flex flex-col gap-6 col-span-12 lg:col-span-7">
-              {(validationError || submitError || stripeError) && (
+              {(validationError ||
+                submitError ||
+                stripeError ||
+                cryptoError) && (
                 <div className="fu2 flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
                   <AlertCircle
                     size={15}
                     className="text-red-500 shrink-0 mt-0.5"
                   />
                   <p className="text-red-600 text-[13px] leading-snug">
-                    {validationError ?? stripeError ?? submitError?.message}
+                    {validationError ??
+                      stripeError ??
+                      cryptoError ??
+                      submitError?.message}
                   </p>
                 </div>
               )}
@@ -502,7 +567,7 @@ export default function Checkout() {
               deliveryCharge={deliveryCharge}
               displayTotal={displayTotal}
               currencySymbol={currencySymbol}
-              isSubmitting={isSubmitting || stripeLoading}
+              isSubmitting={isSubmitting || stripeLoading || cryptoLoading}
               onSubmit={handleSubmit}
               productSlug={productSlug}
               hideButton={!!clientSecret}
